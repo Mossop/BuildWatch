@@ -1,0 +1,658 @@
+#! /usr/bin/awk -f
+
+# buildwatch-trunk - Nick Thomas - nrthomas@gmail.com
+#
+# Pretty print a Mozilla build log, from cvs checkout through the build.
+# Works in realtime or replaying an old log.
+#
+# Requirements:
+# - gawk: you may have have to adjust the path to gawk at the top of
+#         the scripts if using Linux rather than Cygwin.
+# - in your mozconfig: "ac_add_options --enable-xterm-updates"
+#
+# Installation:
+# - save it somewhere convenient and make sure it's chmod +x , use ~/bin
+#   (or equivalent place on path) to avoid specifying the path all the
+#   time (general case used below)
+#
+# How to use:
+# - When building:
+#     $ make -f client.mk 2>&1 <build options> | tee <logfile> | /path/to/buildwatch
+# - Rerunning also works (without time
+#     $ /path/to/buildwatch <logfile>
+#
+# I always use the bash shell, haven't tried it on the Windows command line.
+#
+# Known issues:
+# - prebuild steps are not shown (black on black) using a KDE terminal
+#   (Knoppix 4.0.2 and VMWare Player).
+# - errors not always handled properly (doesn't start echoing soon
+#   enough and I once got false reports of completed build).
+# - I was learning awk at the time, it's ugly code :-)
+# - tool_tiers_<n> is not supported, so libs in tier 50 toolkit/library appears to
+#   take a very long time
+#
+# Version history:
+#
+#  1.1.5   03 Apr 2006
+#   - Bug 329358 changed the string used to set xterm titles. This update allows
+#     both forms to work. Also changes our title setting in the same way (Mossop)
+#
+#  1.1.4   14 Mar 2006
+#   - Prebuild section was getting redisplayed when certain warnings occur during
+#     configure mozilla (Mossop)
+#
+#  1.1.3   25 Feb 2006
+#   - Display messages on checkout failures (Mossop)
+#   - Add a rolling log so any number of previous log lines can be displayed 
+#     on error (currently set to 5) (Mossop)
+#
+#  1.1.2   25 Feb 2006
+#   - Fix build time calculation for non-GMT timezones (NThomas)
+#   - Disable throbber on erroring out (NThomas)
+#   - Remove extra newlines before checkout heading and after prebuild/tier
+#     headings (NThomas)
+#
+#  1.1.1   19 Feb 2006
+#   - Fix chop of last charactor of filename in fast-update, put throbber in
+#     right place
+#   - Fix broken display when doing all 5 prebuild steps (3 was fine)
+#   - Make throbber be white in prebuild
+#   - Show throbber on realtime build but not reruns (unless you set 
+#     FORCE_THROBBER to 1)
+#   - set the version for throbber to 1.1 instead of 1.0.2
+#
+#  1.1     19 Feb 2006  contrib by Mossop (mossop@blueprintit.co.uk)
+#   - Added spinning throbber to indicate build activity
+#
+#  1.0.1   18 Feb 2006
+#   - Be smarter about nextmatch regexp so we only need one version for all
+#     branches & trunk.
+#   - Inline documentation for usage/setup.         
+#
+#  1.0     18 Feb 2006 
+#   - First public release.
+
+
+BEGIN {
+ # definitions - ansi character codes
+ RESET   = "\033[0m"
+ HOME    = "\033[H"         # goto top left of screen
+ WIPE    = "\033[2J"        # erase screen
+
+ RED     = "\033[1;31m"     # bright red
+ YELLOW  = "\033[1;33m"     # bright yellow
+ GREEN   = "\033[1;32m"     # bright green
+ BWHITE  = "\033[1;37m"     # bright white
+ WHITE   = "\033[2;37m"     # dull white
+ BLACKBG = "\033[40m"       # black background
+ 
+ UNDER   = "\033[4m"        # underline
+ ERASELINE = "\033[2K"      # Erase line
+ LINEHOME = CURSORLEFT(80)  # Move to the start of the line
+ TITLE   = "\033]0;"        # Change window title PREFIX
+ ENDTITLE= "\007"           # Change window title SUFFIX
+
+ # setup terminal, depends on the terminal and your preferences
+ # was: print RESET, WHITE, BLACKBG, HOME, WIPE
+ # print RESET, WHITE, BLACKBG
+ print RESET, WHITE, BLACKBG, HOME, WIPE
+
+ # define variables
+ ERRORLINES = 5             # Number of lines to keep for logging after errors
+ DEBUG    = 0		   		# 1 for TRUE, write messages to /dev/stderr
+ SLOW     = 0				# Slow down the display by adding a 0.1s wait on each line draw
+ REALSLOW = 0				# Slow way down, 1s delay at line draw
+ FORCE_THROBBER = 0			# if true, always show the throbber (eg for debugging it)
+
+ firsttier =  1              		# looking for our first tier, goes -> 0 on second
+ tier      = -1				# init current tier 
+ 
+ throbpos  = 0
+ 
+ nextmatch = "-_-_-_-_-_-"  		# bogus match to avoid false positives before a tier match
+
+ errorpos  = 0
+
+ # test for input from stdin (indicating build is happening now)
+ # we are assuming no input arguments other than a file to replay
+ # ARGV[0] = gawk and ARGC >=1
+ if (ARGC < 2) {
+   starttime = systime()
+   printf("Build started at %-61s ",strftime("%a %b %d %H:%M:%S"))
+ } 
+ else {
+   rerun = 1
+   printf("Redisplay build log: %-57s ",ARGV[1])
+ }
+}
+
+
+# CVS
+#
+######################################################################################
+# check for beginning of cvs checkout before build, cvs -> false on "checkout finish:"
+# ignore "make[1]: Leaving" before real end of build
+/^checkout start/ { 
+  print CURSORLEFT(1) " \n-------------------------------------------------------------"
+  printf("%s \n%-79s ",$0,"")
+  cvs = 1 
+
+  UpdateCVSTitle()
+}
+
+######################################################################################
+# catch directory prefix for fast-update so we don't get short paths
+/^Contacting bonsai/ {
+  fast_update_dir = $(NF-1)
+  fast_update = 1
+
+  UpdateCVSTitle()
+}
+
+######################################################################################
+# toggle fast-update boolean when we get a traditional cvs co line
+/^cvs .* co / {
+  fast_update = 0
+
+  UpdateCVSTitle()
+}  
+
+######################################################################################
+# write out cvs file updates and merges
+/^[^?]\ / {
+  if (cvs) {
+    if (fast_update) 
+      printf "%s \n%1s %s/%s%s ",CURSORLEFT(1),$1,fast_update_dir,$2,CURSORRIGHT(76-length(fast_update_dir)-length($2))
+    else 
+      printf "%s \n%-78s ",CURSORLEFT(1),$0
+
+    if ( match($0,/^[UP]/) ) 
+      Ucount++
+    else if ( match($0,/^M/) )
+      Mcount++
+    else if ( match($0,/^C/) )
+      Ccount++
+    
+    UpdateCVSTitle()
+  }
+}
+
+######################################################################################
+# write out cvs file removes
+/no longer in the repository$/ {
+  if (cvs) {
+    if (fast_update) 
+      printf "%s \n- %s/%s%s ",CURSORLEFT(1),fast_update_dir,$3,CURSORRIGHT(76-length(fast_update_dir)-length($3))
+    else
+      printf "%s \n- %-76s ",CURSORLEFT(1),$3
+
+    Dcount++
+    UpdateCVSTitle()
+  }
+}
+
+######################################################################################
+# write out checkout endtime
+/^checkout finish|fast_update finish/ {
+  printf("%s \n\n%s\n",CURSORLEFT(1),$0)
+  printf("%1.0f updated, %1.0f deleted, %1.0f modified in tree, %1.0f conflicts\n",Ucount,Dcount,Mcount,Ccount)
+  print "-------------------------------------------------------------"
+  if ( (!rerun || FORCE_THROBBER) && !errorquit)
+    printf CURSORRIGHT(79)
+
+  cvs = 0
+  Ucount = 0;       # reset counters incase we do two checkout/fast-update
+  Ccount = 0;
+  Mcount = 0;
+  Dcount = 0;  
+}
+
+######################################################################################
+# catch cvs conflicts and quit
+/Conflicts during checkout/ {
+  if (!errorquit) {
+   printf "%s \n",CURSORLEFT(1)
+
+   errorquit = 1
+   everyline = 1
+  }
+}
+
+######################################################################################
+# catch cvs failures
+/checkout aborted/ {
+  if (!errorquit) {
+    printf "%s \n%s\n",CURSORLEFT(1),$0
+    print CURSORRIGHT(79)
+  }
+}
+
+
+# Configures and basic building blocks
+#
+######################################################################################
+# mozilla/configure, with hardcoded elements for prebuild (nspr and the like)
+/^[^UM]*mozilla\/configure$/ {
+  dir[1] = "configure mozilla"
+  dir[2] = "configure nspr"
+  dir[3] = "make export config"
+  dir[4] = "make nspr"
+  dir[5] = "make ldap"
+  ndirs = 5
+
+  printf "%s \n%s%s",CURSORLEFT(1),RED,WHITE     	# bug with highlight requires RED first !
+  printf "prebuild - %g tasks:",ndirs
+  print RED
+
+
+  for (counter=1;counter<=ndirs;counter++)
+    printf "%s%s  %-76s\n", ERASELINE, RED,dir[counter]
+
+  printf CURSORUP(ndirs) 		# only this code resets the cursor position after itself !
+
+  curdir = 1
+
+  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
+  printf TSTRING			# write xterm title
+
+  printf "%s  %-76s%s ", YELLOW ,dir[curdir],WHITE
+}
+
+
+######################################################################################
+# configure nspr
+/configuring in nspr/ {
+  printf LINEHOME
+  printf "%s  %-76s \n", GREEN, dir[curdir]
+  curdir++
+  printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
+
+  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
+  printf TSTRING			# write xterm title
+}
+
+######################################################################################
+# config export
+/-C config export/ {
+  if (curdir == 0)  {		# no configures done
+    dir[1] = "make export config"
+    dir[2] = "make nspr"
+    dir[3] = "make ldap"
+    ndirs = 3
+
+    TSTRING = sprintf("%s%s - exp [%2g/%2g] %s%s",TITLE,"pb",1,ndirs,dir[1],ENDTITLE)
+    printf TSTRING			# write xterm title
+
+    printf "%s \n%s%s",CURSORLEFT(1),RED,WHITE     	# bug with highlight requires RED first !
+    printf "prebuild - %g tasks:",ndirs
+    print RED
+
+
+    for (counter=1;counter<=ndirs;counter++)
+      printf "%s%s  %-76s\n", ERASELINE, RED,dir[counter]
+
+    printf CURSORUP(ndirs)		# only this code resets the cursor position after itself !
+
+    curdir = 1
+    printf "%s  %-76s%s ", YELLOW ,dir[curdir], WHITE
+  }
+  else {
+    printf LINEHOME
+    printf "%s  %-76s \n", GREEN, dir[curdir]
+    curdir++
+    printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
+
+    TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
+    printf TSTRING			# write xterm title
+  }
+}
+
+######################################################################################
+# make nspr
+/make nspr/ {
+  printf LINEHOME
+  printf "%s  %-76s \n", GREEN, dir[curdir]
+  curdir++
+  printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
+
+  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
+  printf TSTRING                      # write xterm title
+}
+
+######################################################################################
+# make ldap
+/make ldap/ {
+  printf LINEHOME
+  printf "%s  %-76s \n", GREEN, dir[curdir]
+  curdir++
+  printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
+
+  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
+  printf TSTRING                      # write xterm title
+}
+
+
+
+# Main build
+# 
+######################################################################################
+# new tier - get dirs and setup for matching progress
+/^tier_/ {
+  if (firsttier) {                      # special initialisations on first tier
+    firsttier = 0
+
+    printf LINEHOME			# tidy up prebuild
+    printf "%s  %-76s \n", GREEN, dir[curdir]
+   
+
+    if (DEBUG) {
+      print "################################################################" > "/dev/stderr"
+      print ("Run starting " strftime() " on " FILENAME) > "/dev/stderr"
+      print " " > "/dev/stderr"
+    }
+  }
+  else {                                # tidy end of last tier if not the first
+    printf LINEHOME
+    DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
+    printf "\n"
+    if (DEBUG) 
+      print ("  --> tidy last tier, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+  }
+
+  # parse info
+  tpos = index($0,":")
+  tier = substr($0,6,tpos-6)            # get current tier
+  dirstring = substr($0,tpos+2)         # listof dirs
+  split(dirstring,dir)                  # get dirs for tier
+  ndirs = NF -1                         # set number of dir counter
+
+  # draw tier
+  printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
+  if (ndirs == 1)
+    printf "tier %g - %g dir:",tier,ndirs
+  else
+    printf "tier %g - %g dirs:",tier,ndirs
+  print RED
+
+  for (curdir=1;curdir<=ndirs;curdir++) {
+    DrawLine(RED,RED,0,0)
+    printf "\n"
+  }
+  printf CURSORUP(ndirs) CURSORRIGHT(79)		# only this code resets the cursor position after itself !
+  
+  
+  # set up vars
+  curdir = 0
+  nextmatch = sprintf("\033][02];gmake: (export_)?tier_%s.*\\/%s\a",tier,dir[1])   # string to match
+  doexport = 1        			# we're doing exports at the moment
+  firstexport = 1     			# this is the first export
+  firstlib = 1	      			# this is the first libs, not really for all export lines, but not tested till first lib
+  split("",nsubdirs); 			# clear no of sub dirs array
+  split("",donedirs);			# clear no of sub dirs array
+
+
+  if (DEBUG) {
+    print (marker "-------------------------------------------------------------------------") > "/dev/stderr"
+    print (NR ": " $0) > "/dev/stderr"
+    print (tier " " ndirs " " dirstring) > "/dev/stderr"
+    print ("nextmatch: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
+  }
+
+}
+
+
+######################################################################################
+# tier progress code
+
+$0 ~ nextmatch {
+
+  if (DEBUG)
+    print (NR " - got nextmatch:  " substr($0,5,70) ) > "/dev/stderr"
+
+  if (doexport) {
+    export[curdir] = 1
+    if (firstexport) {			# the first export
+      printf LINEHOME
+      nsubdirs[curdir] = 0
+      curdir++
+      TSTRING = sprintf("%s%s%2g - exp [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      DrawLine(YELLOW,RED,0,0)
+      firstexport = 0 
+      if (DEBUG)
+        print ("  --> first export, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+    }
+    else {  				# 2nd or later export
+      printf LINEHOME
+      DrawLine(GREEN,RED,nsubdirs[curdir],0)
+      curdir++
+      printf "\n"
+      TSTRING = sprintf("%s%s%2g - exp [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      DrawLine(YELLOW,RED,0,0)
+      nsubdirs[curdir] = 0
+      if (DEBUG)
+        print ("  --> export, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+    }
+  }
+  else {				# must be a libs then
+    if (firstlib) {			# the first libs
+      printf LINEHOME
+      DrawLine(GREEN,RED,nsubdirs[curdir],0)
+      printf LINEHOME CURSORUP(ndirs-1)
+      curdir = 1
+      donedirs[curdir] = 0
+      TSTRING = sprintf("%s%s%2g - lib [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      DrawLine(GREEN,YELLOW,nsubdirs[curdir],0)
+      firstlib = 0
+      if (DEBUG)
+        print ("  --> first libs, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
+    }
+    else {				# subsequent libs
+      printf LINEHOME
+      DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir])
+      curdir++
+      donedirs[curdir] = 0
+      printf "\n"
+      TSTRING = sprintf("%s%s%2g - lib [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      DrawLine(GREEN,YELLOW,nsubdirs[curdir],0)
+      if (DEBUG)
+        print ("  --> libs, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
+    }
+  }
+
+  nextmatch = "\033][02];gmake:"
+  if ( curdir < ndirs ) {
+    if (doexport == 1)
+       nextmatch = sprintf("%s (export_)?tier_%s.*\\/%s\a",nextmatch,tier,dir[curdir+1])
+    else
+       nextmatch = sprintf("%s (libs_)?tier_%s.*\\/%s\a",nextmatch,tier,dir[curdir+1])
+    if (DEBUG)
+      print ("nextmatch is: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
+  }
+  else {
+    nextmatch = sprintf("\033][02];gmake: (libs_)?tier_%s.*\\/%s\a",tier,dir[1])
+    doexport = 0
+    if (DEBUG)
+      print ("nextmatch is: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
+  }
+
+}
+
+
+######################################################################################
+# 
+/\033][02];gmake: export / {			# export subdir
+  if (!firsttier) {
+    printf LINEHOME
+    DrawLine(YELLOW,RED,nsubdirs[curdir]++,0)
+
+    if (DEBUG) {
+      print (NR ":  " substr($0,5,70) ) > "/dev/stderr"
+      print ("  --> got export subdir, dir: " dir[curdir] ", curdir: " curdir ", nsubdirs -> " nsubdirs[curdir] "\n" ) > "/dev/stderr"
+    }
+  }
+}
+
+
+######################################################################################
+#
+/\033][02];gmake: libs / {				# lib subdir 
+  if (!firsttier) {
+    printf LINEHOME
+    DrawLine(GREEN,YELLOW,nsubdirs[curdir],donedirs[curdir]++)
+
+    if (DEBUG) {
+      print (NR ":  " substr($0,5,70) ) > "/dev/stderr"
+      print ("  --> got libs subdir, dir: " dir[curdir] ", curdir: " curdir ", donedirs -> " donedirs[curdir] "\n" ) > "/dev/stderr"
+    }
+  }
+}
+
+######################################################################################
+# handle error in compilation
+/ Stop|error\ / {
+  if (!errorquit) {
+    print LINEHOME CURSORDOWN(ndirs-curdir+1)
+    print RESET "Error caught:\n"
+    for (counter=0; counter<ERRORLINES; counter++) {
+      pos = ((counter+errorline) % ERRORLINES) +1
+      if (length(prevlines[pos])>0)
+        print prevlines[pos]
+    }
+
+    errorquit = 1
+    everyline = 1
+  }
+}
+
+######################################################################################
+# update the funky throbber
+{ if ( (!rerun || FORCE_THROBBER) && !errorquit) {
+    printf CURSORLEFT(1)
+    if (throbpos==0) 
+      printf "-"
+    else if (throbpos==1)
+      printf "\\"
+    else if (throbpos==2)
+      printf "|"
+    else if (throbpos==3)
+      printf "/"
+    
+    throbpos=(throbpos+1)%4
+  }
+}
+
+######################################################################################
+# grab the last record to save the current file being compiled, dodgy hack
+# will quite often not have a file at all
+#{
+#  curfile = $NF
+#}
+
+######################################################################################
+# remember previous two lines
+#  must be updated after error check
+{
+  if (!errorquit) {
+    prevlines[errorline+1] = $0
+    errorline = (errorline+1) % ERRORLINES
+  }
+}
+
+######################################################################################
+# write everyline after error
+{if (everyline)
+  print $0
+}
+
+######################################################################################
+# exit on successful build, skipping the match on end of cvs checkout and configures
+# /^make\[1\]:\ Leaving\ directory/ { if (!firsttier) exit }
+
+######################################################################################
+# debug on make[1] messages to try to catch the end of compilation being missed
+#/^make\[1\]/ { print (strftime() " - " NR ": " $0) > "/dev/stderr" }
+
+
+######################################################################################
+# END: clean up last lib  and restore terminal
+END {
+  if (!errorquit && !firsttier ) {       # successful build (no error) or checkout only
+    printf LINEHOME
+    DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
+  }
+
+  if (!errorquit) {
+    print CURSORLEFT(1) " \n\n"
+  }
+  
+  if (!rerun) {
+    endtime = systime();
+    bt_temp = endtime - starttime		# seconds
+    buildtime_h = int(bt_temp/3600)		# hours
+    bt_temp = bt_temp - 3600*buildtime_h	# remainder (seconds)
+    buildtime_m = int(bt_temp/60)		# minutes
+    buildtime_s = bt_temp - 60*buildtime_m	# seconds
+    buildtime_str = sprintf("%d:%02d:%02d", buildtime_h, buildtime_m, buildtime_s)
+    if (errorquit)
+      print RESET WHITE "Build stopped at " strftime("%a %b %d %H:%M:%S") ", after " buildtime_str
+    else
+      print RESET WHITE "Build done at " strftime("%a %b %d %H:%M:%S") ", taking " buildtime_str "\n"
+  }
+  printf RESET
+
+}
+
+
+######################################################################################
+#
+function DrawLine(expstat, libstat, nsub, nsubdone) {
+
+  printf TSTRING			# write xterm title
+  if (nsub > 0) {
+    if (nsubdone > 0) 			# some export subdir, some libs as well
+      printf "%s%8s [%2g]    %s%6s [%2g]      %s%-44s ", expstat,"export",nsub,libstat,"libs",nsubdone,WHITE,dir[curdir]
+    else				# some export subdir, no libs subdir yet
+      printf "%s%8s [%2g]    %s%6s           %s%-44s ", expstat,"export",nsub,libstat,"libs",WHITE,dir[curdir]
+  } 
+  else 					# no subdirs
+      printf "%s%8s         %s%6s           %s%-44s ", expstat,"export",libstat,"libs",WHITE,dir[curdir]
+
+  if (SLOW)				# delay to slow things down
+    system("sleep 0.1")
+  if (REALSLOW)				# delay to watch real careful y'all
+    system("sleep 1.0")
+}
+
+######################################################################################
+function CURSORLEFT(n) {   # Go left n characters
+   return "\033[" n "D" }   
+
+
+######################################################################################
+function CURSORRIGHT(n) {  # Go right n characters
+   return "\033[" n "C" }   
+
+
+######################################################################################
+function CURSORDOWN(n) {   # Go down the screen n lines
+   return "\033[" n "B" }   
+
+
+######################################################################################
+function CURSORUP(n) {     # Go up the screen n lines
+   return "\033[" n "A" }   
+
+
+######################################################################################
+function UpdateCVSTitle() {
+  cvs_string = sprintf("U%1.0f D%1.0f M%1.0f C%1.0f",Ucount,Dcount,Mcount,Ccount)
+  if (fast_update)
+    TSTRING = sprintf("%s%s %s%s",TITLE,"f-u",cvs_string,ENDTITLE)
+  else 
+    TSTRING = sprintf("%s%s %s%s",TITLE,"co",cvs_string,ENDTITLE)
+  printf TSTRING			# write xterm title
+}
+
+
+
