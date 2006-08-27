@@ -18,7 +18,7 @@
 # How to use:
 # - When building:
 #     $ make -f client.mk 2>&1 <build options> | tee <logfile> | /path/to/buildwatch
-# - Rerunning also works (without time
+# - Rerunning also works (without time)
 #     $ /path/to/buildwatch <logfile>
 #
 # I always use the bash shell, haven't tried it on the Windows command line.
@@ -33,6 +33,11 @@
 #   take a very long time
 #
 # Version history:
+#
+#  1.2     26 Aug 2006
+#   - Bug 325096 made a large change to the build output. ldap no longer appears
+#     to be made as standard. tier dirs are now more difficult to find. (Mossop)
+#   - Now displays the tools build section for trunk builds
 #
 #  1.1.5   03 Apr 2006
 #   - Bug 329358 changed the string used to set xterm titles. This update allows
@@ -100,17 +105,18 @@ BEGIN {
 
  # define variables
  ERRORLINES = 5             # Number of lines to keep for logging after errors
- DEBUG    = 0		   		# 1 for TRUE, write messages to /dev/stderr
- SLOW     = 0				# Slow down the display by adding a 0.1s wait on each line draw
- REALSLOW = 0				# Slow way down, 1s delay at line draw
- FORCE_THROBBER = 0			# if true, always show the throbber (eg for debugging it)
+ DEBUG    = 0               # 1 for TRUE, write messages to /dev/stderr
+ SLOW     = 0               # Slow down the display by adding a 0.1s wait on each line draw
+ REALSLOW = 0               # Slow way down, 1s delay at line draw
+ FORCE_THROBBER = 0         # if true, always show the throbber (eg for debugging it)
 
- firsttier =  1              		# looking for our first tier, goes -> 0 on second
- tier      = -1				# init current tier 
+ firsttier =  1             # looking for our first tier, goes -> 0 on second
+ tier      = -1             # init current tier 
+ scantier  =  0             # Set to 1 when scanning for tier dirs
  
  throbpos  = 0
  
- nextmatch = "-_-_-_-_-_-"  		# bogus match to avoid false positives before a tier match
+ nextmatch = "-_-_-_-_-_-"  # bogus match to avoid false positives before a tier match
 
  errorpos  = 0
 
@@ -238,11 +244,10 @@ BEGIN {
   dir[2] = "configure nspr"
   dir[3] = "make export config"
   dir[4] = "make nspr"
-  dir[5] = "make ldap"
-  ndirs = 5
+  ndirs = 4
 
   printf "%s \n%s%s",CURSORLEFT(1),RED,WHITE     	# bug with highlight requires RED first !
-  printf "prebuild - %g tasks:",ndirs
+  printf "prebuild:"
   print RED
 
 
@@ -278,14 +283,13 @@ BEGIN {
   if (curdir == 0)  {		# no configures done
     dir[1] = "make export config"
     dir[2] = "make nspr"
-    dir[3] = "make ldap"
-    ndirs = 3
+    ndirs = 2
 
     TSTRING = sprintf("%s%s - exp [%2g/%2g] %s%s",TITLE,"pb",1,ndirs,dir[1],ENDTITLE)
     printf TSTRING			# write xterm title
 
     printf "%s \n%s%s",CURSORLEFT(1),RED,WHITE     	# bug with highlight requires RED first !
-    printf "prebuild - %g tasks:",ndirs
+    printf "prebuild:"
     print RED
 
 
@@ -310,7 +314,7 @@ BEGIN {
 
 ######################################################################################
 # make nspr
-/make nspr/ {
+/make nspr|make tier_nspr/ {
   printf LINEHOME
   printf "%s  %-76s \n", GREEN, dir[curdir]
   curdir++
@@ -322,10 +326,12 @@ BEGIN {
 
 ######################################################################################
 # make ldap
-/make ldap/ {
+/make ldap|make tier_ldap/ {
   printf LINEHOME
   printf "%s  %-76s \n", GREEN, dir[curdir]
   curdir++
+  dir[curdir] = "make ldap"
+  ndirs++
   printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
 
   TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
@@ -337,60 +343,153 @@ BEGIN {
 # Main build
 # 
 ######################################################################################
-# new tier - get dirs and setup for matching progress
-/^tier_/ {
-  if (firsttier) {                      # special initialisations on first tier
-    firsttier = 0
+# next tier - clean up last tier and prepare to find dirs
+/make (export_tier_|tier_)([0123456789]+)$/ {
+  tpos = index($0,"tier_")
+  ntier = substr($0,tpos+5)            # get current tier
 
-    printf LINEHOME			# tidy up prebuild
-    printf "%s  %-76s \n", GREEN, dir[curdir]
-   
+  # Avoid spotting a tier twice
+  if (ntier != tier) {
+    if (firsttier) {                      # special initialisations on first tier
+      firsttier = 0
+  
+      printf LINEHOME			# tidy up prebuild
+      printf "%s  %-76s \n", GREEN, dir[curdir]
+     
+  
+      if (DEBUG) {
+        print "################################################################" > "/dev/stderr"
+        print ("Run starting " strftime() " on " FILENAME) > "/dev/stderr"
+        print " " > "/dev/stderr"
+      }
+    }
+    else if (dotools) {
+      printf LINEHOME
+      DrawTools(GREEN,nsubdirs[curdir])
+      printf "\n"
+    }
+    else {                                # tidy end of last tier if not the first
+      printf LINEHOME
+      DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
+      printf "\n"
+      if (DEBUG) 
+        print ("  --> tidy last tier, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+    }
+  
+    tier = ntier
+    ndirs = 0
+    curdir = 0
 
+    dotools = 0
+    doexport = 1        			# we're doing exports at the moment
+    firstexport = 1     			# this is the first export
+    firstlib = 1	      			# this is the first libs, not really for all export lines, but not tested till first lib
+    split("",nsubdirs); 			# clear no of sub dirs array
+    split("",donedirs);			  # clear no of sub dirs array
+  
+    # draw tier
+    printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
+    printf "tier %g:",tier
+    print RED
+    
+    scantier = 1
+  }
+}
+
+######################################################################################
+# tools tier
+/make tools_tier_([0123456789]+)$/ {
+  printf LINEHOME
+  if (dotools) {
+    DrawTools(GREEN,nsubdirs[curdir])
+  }
+  else {
+    DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
+  }
+  printf "\n"
+
+  tpos = index($0,"tier_")
+  tier = substr($0,tpos+5)            # get current tier
+  
+  ndirs = 0
+  curdir = 0
+
+  printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
+  printf "tools tier %g:",tier
+  print RED
+  
+  dotools = 1
+  firsttools = 1     			# this is the first tools
+  scantier = 1
+}
+
+######################################################################################
+# Tier dir detected
+/^make\[[0123456789]\]: `(.+)\/Makefile' is up to date\.$/ {
+  if (scantier) {
+    printf CURSORLEFT(1) " " CURSORLEFT(1)
+    epos = index($0, "Makefile")
+    ndirs++
+    dir[ndirs] = substr($0, 11, epos-12)
+    curdir++
+    if (dotools)
+      DrawTools(RED,0)
+    else
+      DrawLine(RED,RED,0,0)
+    printf "\n"
     if (DEBUG) {
-      print "################################################################" > "/dev/stderr"
-      print ("Run starting " strftime() " on " FILENAME) > "/dev/stderr"
-      print " " > "/dev/stderr"
+      print "Found tier dir " dir[ndirs] > "/dev/stderr"
     }
   }
-  else {                                # tidy end of last tier if not the first
-    printf LINEHOME
-    DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
-    printf "\n"
-    if (DEBUG) 
-      print ("  --> tidy last tier, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+}
+
+######################################################################################
+# End of tier dirs
+/^make\[[0123456789]\]: Leaving directory/ {
+  if (scantier) {
+    printf CURSORLEFT(1) " " CURSORLEFT(1) CURSORUP(ndirs+1)
+    if (dotools)
+      printf "%stools tier %g - %d dirs:",WHITE,tier,ndirs
+    else
+      printf "%stier %g - %d dirs:",WHITE,tier,ndirs
+    printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
+  
+    curdir = 0
+    nextmatch = BuildNextMatch(dir[1])
+  
+    if (DEBUG) {
+      print "Found end of tier dirs " > "/dev/stderr"
+    }
+
+    scantier = 0
   }
+}
+
+######################################################################################
+# Old style tier detected
+/^tier_([0123456789]+):/ {
+  printf CURSORLEFT(1) " " CURSORLEFT(1)
 
   # parse info
   tpos = index($0,":")
-  tier = substr($0,6,tpos-6)            # get current tier
   dirstring = substr($0,tpos+2)         # listof dirs
   split(dirstring,dir)                  # get dirs for tier
   ndirs = NF -1                         # set number of dir counter
-
-  # draw tier
-  printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
-  if (ndirs == 1)
-    printf "tier %g - %g dir:",tier,ndirs
-  else
-    printf "tier %g - %g dirs:",tier,ndirs
-  print RED
 
   for (curdir=1;curdir<=ndirs;curdir++) {
     DrawLine(RED,RED,0,0)
     printf "\n"
   }
-  printf CURSORUP(ndirs) CURSORRIGHT(79)		# only this code resets the cursor position after itself !
-  
+  printf CURSORUP(ndirs+1)
+  if (ndir == 1)
+    printf "tier %g - %d dir:",tier,ndirs
+  else
+    printf "tier %g - %d dirs:",tier,ndirs
+  printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
   
   # set up vars
   curdir = 0
-  nextmatch = sprintf("\033][02];gmake: (export_)?tier_%s.*\\/%s\a",tier,dir[1])   # string to match
-  doexport = 1        			# we're doing exports at the moment
-  firstexport = 1     			# this is the first export
-  firstlib = 1	      			# this is the first libs, not really for all export lines, but not tested till first lib
-  split("",nsubdirs); 			# clear no of sub dirs array
-  split("",donedirs);			# clear no of sub dirs array
-
+  nextmatch = BuildNextMatch(dir[1])
 
   if (DEBUG) {
     print (marker "-------------------------------------------------------------------------") > "/dev/stderr"
@@ -399,6 +498,7 @@ BEGIN {
     print ("nextmatch: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
   }
 
+  scantier = 0
 }
 
 
@@ -410,7 +510,26 @@ $0 ~ nextmatch {
   if (DEBUG)
     print (NR " - got nextmatch:  " substr($0,5,70) ) > "/dev/stderr"
 
-  if (doexport) {
+  if (dotools) {
+    if (firsttools) {
+      printf LINEHOME
+      nsubdirs[curdir] = 0
+      curdir++
+      TSTRING = sprintf("%s%s%2g - tools [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      DrawTools(YELLOW,0)
+      firsttools = 0 
+    }
+    else {
+      printf LINEHOME
+      DrawTools(GREEN,nsubdirs[curdir])
+      curdir++
+      printf "\n"
+      TSTRING = sprintf("%s%s%2g - tools [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      DrawTools(YELLOW,0)
+      nsubdirs[curdir] = 0
+    }
+  }
+  else if (doexport) {
     export[curdir] = 1
     if (firstexport) {			# the first export
       printf LINEHOME
@@ -420,7 +539,7 @@ $0 ~ nextmatch {
       DrawLine(YELLOW,RED,0,0)
       firstexport = 0 
       if (DEBUG)
-        print ("  --> first export, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+        print ("  --> first export, curdir: " curdir " " dir[curdir] ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
     }
     else {  				# 2nd or later export
       printf LINEHOME
@@ -431,7 +550,7 @@ $0 ~ nextmatch {
       DrawLine(YELLOW,RED,0,0)
       nsubdirs[curdir] = 0
       if (DEBUG)
-        print ("  --> export, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+        print ("  --> export, curdir: " curdir " " dir[curdir] ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
     }
   }
   else {				# must be a libs then
@@ -445,7 +564,7 @@ $0 ~ nextmatch {
       DrawLine(GREEN,YELLOW,nsubdirs[curdir],0)
       firstlib = 0
       if (DEBUG)
-        print ("  --> first libs, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
+        print ("  --> first libs, curdir: " curdir " " dir[curdir] ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
     }
     else {				# subsequent libs
       printf LINEHOME
@@ -456,28 +575,33 @@ $0 ~ nextmatch {
       TSTRING = sprintf("%s%s%2g - lib [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
       DrawLine(GREEN,YELLOW,nsubdirs[curdir],0)
       if (DEBUG)
-        print ("  --> libs, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
+        print ("  --> libs, curdir: " curdir " " dir[curdir] ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
     }
   }
 
-  nextmatch = "\033][02];gmake:"
   if ( curdir < ndirs ) {
-    if (doexport == 1)
-       nextmatch = sprintf("%s (export_)?tier_%s.*\\/%s\a",nextmatch,tier,dir[curdir+1])
-    else
-       nextmatch = sprintf("%s (libs_)?tier_%s.*\\/%s\a",nextmatch,tier,dir[curdir+1])
-    if (DEBUG)
-      print ("nextmatch is: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
+    nextmatch = BuildNextMatch(dir[curdir+1])
+  }
+  else if (doexport) {
+    nextmatch = BuildNextMatch(dir[1])
+    doexport = 0
   }
   else {
-    nextmatch = sprintf("\033][02];gmake: (libs_)?tier_%s.*\\/%s\a",tier,dir[1])
-    doexport = 0
-    if (DEBUG)
-      print ("nextmatch is: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
+    nextmatch = "-_-_-_-_-_-"
   }
-
+  if (DEBUG)
+    print ("nextmatch is: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
 }
 
+
+######################################################################################
+# 
+/\033][02];gmake: tools / {			# tools subdir
+  if (!firsttier) {
+    printf LINEHOME
+    DrawTools(YELLOW,nsubdirs[curdir]++)
+  }
+}
 
 ######################################################################################
 # 
@@ -492,7 +616,6 @@ $0 ~ nextmatch {
     }
   }
 }
-
 
 ######################################################################################
 #
@@ -550,7 +673,7 @@ $0 ~ nextmatch {
 #}
 
 ######################################################################################
-# remember previous two lines
+# remember previous lines
 #  must be updated after error check
 {
   if (!errorquit) {
@@ -606,6 +729,13 @@ END {
 
 ######################################################################################
 #
+function BuildNextMatch(dir) {
+  gsub(/\//, "\\/", dir)
+  return sprintf("make\\[[01234567890]\\]: Entering directory `.*\\/%s'$",dir)
+}
+
+######################################################################################
+#
 function DrawLine(expstat, libstat, nsub, nsubdone) {
 
   printf TSTRING			# write xterm title
@@ -625,24 +755,43 @@ function DrawLine(expstat, libstat, nsub, nsubdone) {
 }
 
 ######################################################################################
-function CURSORLEFT(n) {   # Go left n characters
-   return "\033[" n "D" }   
+#
+function DrawTools(stat, nsub) {
+  printf TSTRING			# write xterm title
+  if (nsub > 0) {
+    printf "%s  %s [%2g]%s", stat,dir[curdir],nsub,WHITE
+    count = 72-length(dir[curdir])
+    format = "%-" count "s"
+    printf format," "
+  }
+  else 					# no subdirs
+    printf "%s  %-77s%s", stat,dir[curdir],WHITE
 
+  if (SLOW)				# delay to slow things down
+    system("sleep 0.1")
+  if (REALSLOW)				# delay to watch real careful y'all
+    system("sleep 1.0")
+}
+
+######################################################################################
+function CURSORLEFT(n) {   # Go left n characters
+   return "\033[" n "D"
+}
 
 ######################################################################################
 function CURSORRIGHT(n) {  # Go right n characters
-   return "\033[" n "C" }   
-
+   return "\033[" n "C"
+}
 
 ######################################################################################
 function CURSORDOWN(n) {   # Go down the screen n lines
-   return "\033[" n "B" }   
-
+   return "\033[" n "B"
+}
 
 ######################################################################################
 function CURSORUP(n) {     # Go up the screen n lines
-   return "\033[" n "A" }   
-
+   return "\033[" n "A"
+}
 
 ######################################################################################
 function UpdateCVSTitle() {
@@ -653,6 +802,3 @@ function UpdateCVSTitle() {
     TSTRING = sprintf("%s%s %s%s",TITLE,"co",cvs_string,ENDTITLE)
   printf TSTRING			# write xterm title
 }
-
-
-

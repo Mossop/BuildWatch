@@ -1,0 +1,538 @@
+make  -C /cygdrive/c/mozilla/build/minefield-noncairo
+make[1]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+rm -f -rf ./dist/sdk
+rm -f -rf ./dist/include
+/usr/bin/make -C config export
+make[2]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/config'
+]0;gmake: export in minefield-noncairo/config/mkdependmake[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/config/mkdepend'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/config/mkdepend'
+/usr/bin/perl -I/cygdrive/c/mozilla/source/HEAD/mozilla/config /cygdrive/c/mozilla/source/HEAD/mozilla/config/bdate.pl build_number 1
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 nsBuildID.h ../mozilla-config.h /cygdrive/c/mozilla/source/HEAD/mozilla/config/nsStaticComponents.h  ../dist/include
+rm -f ../config/final-link-comps ../config/final-link-libs ../config/final-link-comp-names
+rm -f ../dist/bin/chrome/chromelist.txt
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -t -m 644 nsBuildID.h ../mozilla-config.h /cygdrive/c/mozilla/source/HEAD/mozilla/config/nsStaticComponents.h  ../dist/sdk/include
+make[2]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/config'
+set -e;  \
+/usr/bin/make tier_nspr;  /usr/bin/make tier_0;  /usr/bin/make tier_1;  /usr/bin/make tier_2;  /usr/bin/make tier_9;  /usr/bin/make tier_50;  /usr/bin/make tier_99; 
+make[2]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub'
+cd config; /usr/bin/make -j1 export
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/config'
+rm -f c:/mozilla/build/minefield-noncairo/dist/bin/nspr-config
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/config'
+cd pr; /usr/bin/make -j1 export
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr'
+cd include; /usr/bin/make export
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include'
+cd md; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/md'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_aix32.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_aix64.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_beos.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_bsdi.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_darwin.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_dgux.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_freebsd.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_hpux32.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_hpux64.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_irix32.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_irix64.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_linux.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_ncr.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_nec.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_netbsd.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_nextstep.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_nto.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_openbsd.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_openvms.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_os2.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_osf1.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_qnx.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_reliantunix.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_rhapsody.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_riscos.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_scoos.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_solaris.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_sony.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_sunos4.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_unixware.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_unixware7.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_win16.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_win95.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_winnt.cfg c:/mozilla/build/minefield-noncairo/dist/include/nspr/md
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_win95.cfg c:/mozilla/build/minefield-noncairo/dist/include/nspr
+mv -f c:/mozilla/build/minefield-noncairo/dist/include/nspr/_win95.cfg c:/mozilla/build/minefield-noncairo/dist/include/nspr/prcpucfg.h
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/md'
+cd private; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/private'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/private/pprio.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/private/pprthred.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/private/prpriv.h c:/mozilla/build/minefield-noncairo/dist/include/nspr/private
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/private'
+cd obsolete; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/obsolete'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/pralarm.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/probslet.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/protypes.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/prsem.h c:/mozilla/build/minefield-noncairo/dist/include/nspr/obsolete
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/obsolete'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/nspr.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/pratom.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prbit.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prclist.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prcmon.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prcountr.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prcvar.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prdtoa.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prenv.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prerr.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prerror.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prinet.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prinit.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prinrval.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prio.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/pripcsem.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlink.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlock.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlog.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlong.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prmem.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prmon.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prmwait.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prnetdb.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prolock.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prpdce.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prprf.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prproces.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prrng.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prrwlock.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prshm.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prshma.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prsystem.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prthread.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtime.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtpool.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtrace.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtypes.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prvrsion.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prwin16.h c:/mozilla/build/minefield-noncairo/dist/include/nspr
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include'
+cd src; /usr/bin/make export
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src'
+cd io; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/io'
+make[6]: Nothing to be done for `export'.
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/io'
+cd linking; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/linking'
+make[6]: Nothing to be done for `export'.
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/linking'
+cd malloc; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/malloc'
+make[6]: Nothing to be done for `export'.
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/malloc'
+cd md; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md'
+cd windows; /usr/bin/make export
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md/windows'
+make[7]: Nothing to be done for `export'.
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md/windows'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md'
+cd memory; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/memory'
+make[6]: Nothing to be done for `export'.
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/memory'
+cd misc; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/misc'
+make[6]: Nothing to be done for `export'.
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/misc'
+cd threads; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads'
+cd combined; /usr/bin/make export
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads/combined'
+make[7]: Nothing to be done for `export'.
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads/combined'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 ./nspr4_s.lib ./nspr4.dll ./nspr4.lib c:/mozilla/build/minefield-noncairo/dist/lib
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 ./nspr4.dll c:/mozilla/build/minefield-noncairo/dist/bin
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr'
+cd lib; /usr/bin/make -j1 export
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib'
+cd ds; /usr/bin/make export
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/ds'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/ds/plarenas.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/ds/plarena.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/ds/plhash.h c:/mozilla/build/minefield-noncairo/dist/include/nspr
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 ./plds4_s.lib ./plds4.dll ./plds4.lib c:/mozilla/build/minefield-noncairo/dist/lib
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 ./plds4.dll c:/mozilla/build/minefield-noncairo/dist/bin
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/ds'
+cd libc; /usr/bin/make export
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc'
+cd include; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/include'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plbase64.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plerror.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plgetopt.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plresolv.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plstr.h c:/mozilla/build/minefield-noncairo/dist/include/nspr
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/include'
+cd src; /usr/bin/make export
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/src'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 ./plc4_s.lib ./plc4.dll ./plc4.lib c:/mozilla/build/minefield-noncairo/dist/lib
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -m 444 ./plc4.dll c:/mozilla/build/minefield-noncairo/dist/bin
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/src'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub'
+/usr/bin/make export_tier_nspr
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make libs_tier_nspr
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make export_tier_0
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: `config/Makefile' is up to date.
+make[4]: `build/Makefile' is up to date.
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/config'
+]0;gmake: export in minefield-noncairo/config/mkdependmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/config/mkdepend'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/config/mkdepend'
+/usr/bin/perl -I/cygdrive/c/mozilla/source/HEAD/mozilla/config /cygdrive/c/mozilla/source/HEAD/mozilla/config/bdate.pl build_number 1
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 nsBuildID.h ../mozilla-config.h /cygdrive/c/mozilla/source/HEAD/mozilla/config/nsStaticComponents.h  ../dist/include
+rm -f ../config/final-link-comps ../config/final-link-libs ../config/final-link-comp-names
+rm -f ../dist/bin/chrome/chromelist.txt
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -t -m 644 nsBuildID.h ../mozilla-config.h /cygdrive/c/mozilla/source/HEAD/mozilla/config/nsStaticComponents.h  ../dist/sdk/include
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/config'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/build'
+]0;gmake: export in minefield-noncairo/build/win32make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/build/win32'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/build/win32'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/build'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make libs_tier_0
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: `config/Makefile' is up to date.
+make[4]: `build/Makefile' is up to date.
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/config'
+]0;gmake: libs in minefield-noncairo/config/mkdependmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/config/mkdepend'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 755 mkdepend.exe ../../dist/host/bin
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/config/mkdepend'
+_ABS_DIST=`cygpath -w ../dist | sed -e 's|\\\\|/|g'`; \
+/usr/bin/make -C ../nsprpub install prefix=$_ABS_DIST/sdk exec_prefix=$_ABS_DIST/sdk bindir=$_ABS_DIST/sdk/dummy includedir=$_ABS_DIST/sdk/include libdir=$_ABS_DIST/sdk/lib datadir=$_ABS_DIST/sdk/dummy DESTDIR=
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub'
+cd config; /usr/bin/make -j1 install
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/config'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0755 nspr-config c:/mozilla/build/minefield-noncairo/dist/sdk/dummy
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -D c:/mozilla/build/minefield-noncairo/dist/sdk/dummy/aclocal
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/config/nspr.m4 c:/mozilla/build/minefield-noncairo/dist/sdk/dummy/aclocal
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/config'
+cd pr; /usr/bin/make -j1 install
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr'
+cd include; /usr/bin/make install
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/nspr.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/pratom.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prbit.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prclist.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prcmon.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prcountr.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prcvar.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prdtoa.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prenv.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prerr.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prerror.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prinet.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prinit.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prinrval.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prio.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/pripcsem.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlink.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlock.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlog.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prlong.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prmem.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prmon.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prmwait.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prnetdb.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prolock.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prpdce.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prprf.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prproces.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prrng.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prrwlock.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prshm.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prshma.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prsystem.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prthread.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtime.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtpool.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtrace.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prtypes.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prvrsion.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/prwin16.h c:/mozilla/build/minefield-noncairo/dist/sdk/include/
+cd md; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/md'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -D c:/mozilla/build/minefield-noncairo/dist/sdk/include/md
+cp /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_win95.cfg c:/mozilla/build/minefield-noncairo/dist/sdk/include/prcpucfg.h
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_aix32.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_aix64.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_beos.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_bsdi.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_darwin.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_dgux.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_freebsd.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_hpux32.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_hpux64.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_irix32.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_irix64.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_linux.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_ncr.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_nec.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_netbsd.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_nextstep.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_nto.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_openbsd.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_openvms.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_os2.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_osf1.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_qnx.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_reliantunix.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_rhapsody.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_riscos.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_scoos.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_solaris.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_sony.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_sunos4.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_unixware.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_unixware7.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_win16.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_win95.cfg /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/md/_winnt.cfg c:/mozilla/build/minefield-noncairo/dist/sdk/include/md
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/md'
+cd private; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/private'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/private/pprio.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/private/pprthred.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/private/prpriv.h c:/mozilla/build/minefield-noncairo/dist/sdk/include/private
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/private'
+cd obsolete; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/obsolete'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/pralarm.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/probslet.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/protypes.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/include/obsolete/prsem.h c:/mozilla/build/minefield-noncairo/dist/sdk/include/obsolete
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include/obsolete'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/include'
+cd src; /usr/bin/make install
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0755 ./nspr4_s.lib ./nspr4.dll ./nspr4.lib c:/mozilla/build/minefield-noncairo/dist/sdk/lib/
+cd io; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/io'
+make[8]: Nothing to be done for `install'.
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/io'
+cd linking; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/linking'
+make[8]: Nothing to be done for `install'.
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/linking'
+cd malloc; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/malloc'
+make[8]: Nothing to be done for `install'.
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/malloc'
+cd md; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md'
+cd windows; /usr/bin/make install
+make[9]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md/windows'
+make[9]: Nothing to be done for `install'.
+make[9]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md/windows'
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/md'
+cd memory; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/memory'
+make[8]: Nothing to be done for `install'.
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/memory'
+cd misc; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/misc'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0755 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/src/misc/compile-et.pl /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/pr/src/misc/prerr.properties c:/mozilla/build/minefield-noncairo/dist/sdk/dummy
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/misc'
+cd threads; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads'
+cd combined; /usr/bin/make install
+make[9]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads/combined'
+make[9]: Nothing to be done for `install'.
+make[9]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads/combined'
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src/threads'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr/src'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/pr'
+cd lib; /usr/bin/make -j1 install
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib'
+cd ds; /usr/bin/make install
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/ds'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/ds/plarenas.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/ds/plarena.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/ds/plhash.h c:/mozilla/build/minefield-noncairo/dist/sdk/include/
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0755 ./plds4_s.lib ./plds4.dll ./plds4.lib c:/mozilla/build/minefield-noncairo/dist/sdk/lib/
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/ds'
+cd libc; /usr/bin/make install
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc'
+cd include; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/include'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0644 /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plbase64.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plerror.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plgetopt.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plresolv.h /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/lib/libc/include/plstr.h c:/mozilla/build/minefield-noncairo/dist/sdk/include/
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/include'
+cd src; /usr/bin/make install
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/src'
+sh /cygdrive/c/mozilla/source/HEAD/mozilla/nsprpub/build/cygwin-wrapper nsinstall -t -m 0755 ./plc4_s.lib ./plc4.dll ./plc4.lib c:/mozilla/build/minefield-noncairo/dist/sdk/lib/
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc/src'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib/libc'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub/lib'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/nsprpub'
+rm -f -rf ../dist/sdk/dummy
+rm -f -f ../dist/sdk/lib/nspr4.dll ../dist/sdk/lib/plc4.dll ../dist/sdk/lib/plds4.dll
+rm -f -f ../dist/sdk/lib/nspr4_s.lib ../dist/sdk/lib/plc4_s.lib ../dist/sdk/lib/plds4_s.lib
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/config'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/build'
+]0;gmake: libs in minefield-noncairo/build/win32make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/build/win32'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/build/win32'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall /cygdrive/c/mozilla/source/HEAD/mozilla/build/bloaturls.txt ../dist/bin
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall /cygdrive/c/mozilla/source/HEAD/mozilla/build/bloatcycle.html ../dist/bin/res
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/build'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make export_tier_1
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: `jpeg/Makefile' is up to date.
+make[4]: `modules/zlib/Makefile' is up to date.
+make[4]: `modules/zlib/standalone/Makefile' is up to date.
+make[4]: `modules/libbz2/Makefile' is up to date.
+make[4]: `modules/libmar/Makefile' is up to date.
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/jpeg'
+Creating ../dist/include/jpeg
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jconfig.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jerror.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jinclude.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jmorecfg.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jpeglib.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jpegint.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jwinfig.h /cygdrive/c/mozilla/source/HEAD/mozilla/jpeg/jos2fig.h ../dist/include/jpeg
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/jpeg'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib'
+]0;gmake: export in minefield-noncairo/modules/zlib/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/src'
+Creating ../../../dist/include/zlib
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/zlib.h /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/zconf.h /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/mozzconf.h ../../../dist/include/zlib
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/src'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/standalone'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/zlib.h /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/zconf.h /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/mozzconf.h ../../../dist/include/zlib
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/adler32.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/compress.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/crc32.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/deflate.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/gzio.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/infback.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/inffast.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/inflate.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/inftrees.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/trees.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/uncompr.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/zlib/src/zutil.c .
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/standalone'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2'
+]0;gmake: export in minefield-noncairo/modules/libbz2/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2/src'
+Creating ../../../dist/include/libbz2
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libbz2/src/bzlib.h ../../../dist/include/libbz2
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2/src'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar'
+]0;gmake: export in minefield-noncairo/modules/libmar/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/src'
+Creating ../../../dist/include/libmar
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libmar/src/mar.h ../../../dist/include/libmar
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/src'
+]0;gmake: export in minefield-noncairo/modules/libmar/toolmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/tool'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/tool'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make libs_tier_1
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: `jpeg/Makefile' is up to date.
+make[4]: `modules/zlib/Makefile' is up to date.
+make[4]: `modules/zlib/standalone/Makefile' is up to date.
+make[4]: `modules/libbz2/Makefile' is up to date.
+make[4]: `modules/libmar/Makefile' is up to date.
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/jpeg'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 jpeg3250.lib ../dist/lib
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/jpeg'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib'
+]0;gmake: libs in minefield-noncairo/modules/zlib/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/src'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 mozz.lib ../../../dist/lib
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/src'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/standalone'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 mozz_s.lib ../../../dist/lib
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/zlib/standalone'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2'
+]0;gmake: libs in minefield-noncairo/modules/libbz2/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2/src'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 bz2.lib ../../../dist/lib
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2/src'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libbz2'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar'
+]0;gmake: libs in minefield-noncairo/modules/libmar/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/src'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 mar.lib ../../../dist/lib
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 hostmar.lib ../../../dist/host/lib
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/src'
+]0;gmake: libs in minefield-noncairo/modules/libmar/toolmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/tool'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 755 mar.exe ../../../dist/host/bin
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar/tool'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libmar'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make export_tier_2
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: `js/Makefile' is up to date.
+make[4]: `xpcom/Makefile' is up to date.
+make[4]: `modules/libreg/Makefile' is up to date.
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js'
+]0;gmake: export in minefield-noncairo/js/src/fdlibmmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src/fdlibm'
+Creating ../../../dist/include/js
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/fdlibm/fdlibm.h ../../../dist/include/js
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src/fdlibm'
+]0;gmake: export in minefield-noncairo/js/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src'
+Removing old dependencies file, .deps/.all.pp
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src'
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 jsautocfg.h jsautokw.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/js.msg /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsapi.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsarray.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsarena.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsatom.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsbit.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsbool.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsclist.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jscntxt.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jscompat.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsconfig.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsdate.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsdbgapi.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsdhash.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsemit.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsfun.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsgc.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jshash.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsinterp.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsiter.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jslock.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jslong.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsmath.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsnum.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsobj.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsopcode.tbl /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsopcode.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsosdep.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsotypes.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsparse.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsprf.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsproto.tbl /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsprvtd.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jspubtd.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsregexp.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsscan.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsscope.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsscript.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsstddef.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsstr.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jstypes.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsutil.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsxdrapi.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jsxml.h /cygdrive/c/mozilla/source/HEAD/mozilla/js/src/jscpucfg.h ../../dist/include/js
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom'
+Creating ../dist/include/xpcom
+]0;gmake: export in minefield-noncairo/xpcom/MoreFilesmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/MoreFiles'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/MoreFiles'
+]0;gmake: export in minefield-noncairo/xpcom/typelibmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib'
+]0;gmake: export in minefield-noncairo/xpcom/typelib/xptmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt'
+]0;gmake: export in minefield-noncairo/xpcom/typelib/xpt/publicmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/public'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/typelib/xpt/public/xpt_arena.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/typelib/xpt/public/xpt_struct.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/typelib/xpt/public/xpt_xdr.h ../../../../dist/include/xpcom
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/public'
+]0;gmake: export in minefield-noncairo/xpcom/typelib/xpt/srcmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/src'
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/src'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 xpt.lib ../../../../dist/lib
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/src'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/src'
+]0;gmake: export in minefield-noncairo/xpcom/typelib/xpt/toolsmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/tools'
+make[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/tools'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 755 xpt_dump.exe xpt_link.exe ../../../../dist/bin
+Creating ../../../../dist/sdk/bin
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 755 xpt_dump.exe xpt_link.exe ../../../../dist/sdk/bin
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/tools'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt/tools'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpt'
+]0;gmake: export in minefield-noncairo/xpcom/typelib/xpidlmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpidl'
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpidl'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 755 xpidl.exe ../../../dist/bin
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 755 xpidl.exe ../../../dist/sdk/bin
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpidl'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib/xpidl'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/typelib'
+]0;gmake: export in minefield-noncairo/xpcom/stringmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/string'
+]0;gmake: export in minefield-noncairo/xpcom/string/publicmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/string/public'
+Creating ../../../dist/include/string
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsAString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsAlgorithm.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsCharTraits.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsDependentString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsDependentSubstring.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsLiteralString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsObsoleteAString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsPrintfCString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsPromiseFlatString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsReadableUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsStringBuffer.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsStringFwd.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsStringIterator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsSubstring.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsSubstringTuple.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTAString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTDependentString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTDependentSubstring.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTObsoleteAString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTPromiseFlatString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTSubstring.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsTSubstringTuple.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsUTF8Utils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsXPIDLString.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/string-template-def-unichar.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/string-template-def-char.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/string-template-undef.h ../../../dist/include/string
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsXPCOMStrings.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsEmbedString.h ../../../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsXPCOMStrings.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/string/public/nsEmbedString.h ../../../dist/include/string
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/string/public'
+]0;gmake: export in minefield-noncairo/xpcom/string/srcmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/string/src'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/string/src'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/string'
+]0;gmake: export in minefield-noncairo/xpcom/gluemake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/glue'
+]0;gmake: export in minefield-noncairo/xpcom/glue/standalonemake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/glue/standalone'
+Removing old dependencies file, .deps/.all.pp
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/glue/standalone'
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/glue/standalone'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/standalone/nsXPCOMGlue.h ../../../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/standalone/nsXPCOMGlue.h ../../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/pldhash.c /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayEnumerator.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMPtr.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMArray.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCRTGlue.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsComponentManagerUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsEnumeratorUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsID.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIInterfaceRequestorUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsINIParser.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsMemory.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsWeakReference.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsGREGlue.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVersionComparator.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsStringAPI.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTHashtable.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsQuickSort.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVoidArray.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTArray.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsThreadUtils.cpp .
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/glue/standalone'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsThreadUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsProxyRelease.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/pldhash.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayEnumerator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsBaseHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCRTGlue.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsClassHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsDataHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsEnumeratorUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsHashKeys.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsINIParser.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsInterfaceHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsQuickSort.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsStringGlue.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsRefPtrHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsStringAPI.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVoidArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTWeakRef.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsID.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIGenericFactory.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIInterfaceRequestorUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsISupportsImpl.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsISupportsUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIWeakReferenceUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMPtr.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsDebug.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsGenericFactory.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsMemory.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTraceRefcnt.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsWeakReference.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsComponentManagerUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsServiceManagerUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVersionComparator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIClassInfoImpl.h ../../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/pldhash.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayEnumerator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsBaseHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCRTGlue.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsClassHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsDataHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsEnumeratorUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsHashKeys.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsINIParser.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsInterfaceHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsQuickSort.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsStringGlue.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsRefPtrHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsStringAPI.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVoidArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTWeakRef.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsID.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIGenericFactory.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIInterfaceRequestorUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsISupportsImpl.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsISupportsUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIWeakReferenceUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMPtr.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsDebug.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsGenericFactory.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsMemory.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTraceRefcnt.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsWeakReference.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsComponentManagerUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsServiceManagerUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVersionComparator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIClassInfoImpl.h ../../dist/include/xpcom
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/glue'
+]0;gmake: export in minefield-noncairo/xpcom/basemake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/base'
+Removing old dependencies file, .deps/.all.pp
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/base'
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/base'
+Creating ../../dist/sdk/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsAgg.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsAutoPtr.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsCom.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsDebugImpl.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIAllocator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIID.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsISupportsObsolete.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsTraceRefcntImpl.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsWeakPtr.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsInterfaceRequestorAgg.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsError.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsISupportsBase.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nscore.h ../../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsError.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsISupportsBase.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nscore.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIConsoleListener.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIConsoleMessage.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIConsoleService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIErrorService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIException.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIExceptionService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIVersionComparator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIUUIDGenerator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIMutable.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIConsoleListener.h _xpidlgen/nsIConsoleMessage.h _xpidlgen/nsIConsoleService.h _xpidlgen/nsIErrorService.h _xpidlgen/nsIException.h _xpidlgen/nsIExceptionService.h _xpidlgen/nsIVersionComparator.h _xpidlgen/nsIUUIDGenerator.h _xpidlgen/nsIMutable.h ../../dist/include/xpcom 
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIDebug.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIInterfaceRequestor.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIMemory.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIProgrammingLanguage.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsISupports.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsITraceRefcnt.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIWeakReference.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsrootidl.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIDebug.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIInterfaceRequestor.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIMemory.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIProgrammingLanguage.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsISupports.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsITraceRefcnt.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsIWeakReference.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/base/nsrootidl.idl ../../dist/sdk/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIDebug.h _xpidlgen/nsIInterfaceRequestor.h _xpidlgen/nsIMemory.h _xpidlgen/nsIProgrammingLanguage.h _xpidlgen/nsISupports.h _xpidlgen/nsITraceRefcnt.h _xpidlgen/nsIWeakReference.h _xpidlgen/nsrootidl.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIDebug.h _xpidlgen/nsIInterfaceRequestor.h _xpidlgen/nsIMemory.h _xpidlgen/nsIProgrammingLanguage.h _xpidlgen/nsISupports.h _xpidlgen/nsITraceRefcnt.h _xpidlgen/nsIWeakReference.h _xpidlgen/nsrootidl.h ../../dist/sdk/include
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/base'
+]0;gmake: export in minefield-noncairo/xpcom/dsmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/ds'
+Removing old dependencies file, .deps/.all.pp
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/ds'
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/ds'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsAtomService.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsCheapSets.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsCppSharedAllocator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsCRT.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsDeque.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsDoubleHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsFixedSizeAllocator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsHashSets.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsHashtable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIByteBuffer.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIUnicharBuffer.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsInt64.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsObserverService.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsRecyclingAllocator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsStaticNameTable.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsStaticAtom.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsSupportsArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsSupportsPrimitives.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsTime.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsUnitConversion.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsVariant.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsTextFormatter.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsValueArray.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsStringEnumerator.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsAutoBuffer.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsHashPropertyBag.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsWindowsRegKey.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIAtom.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIAtomService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsICollection.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIEnumerator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIHashable.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIINIParser.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIPersistentProperties2.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIProperty.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIPropertyBag.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIPropertyBag2.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIWritablePropertyBag.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIWritablePropertyBag2.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIRecyclingAllocator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIVariant.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISerializable.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIStringEnumerator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISupportsArray.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISupportsIterators.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsITimelineService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIWindowsRegKey.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIAtom.h _xpidlgen/nsIAtomService.h _xpidlgen/nsICollection.h _xpidlgen/nsIEnumerator.h _xpidlgen/nsIHashable.h _xpidlgen/nsIINIParser.h _xpidlgen/nsIPersistentProperties2.h _xpidlgen/nsIProperty.h _xpidlgen/nsIPropertyBag.h _xpidlgen/nsIPropertyBag2.h _xpidlgen/nsIWritablePropertyBag.h _xpidlgen/nsIWritablePropertyBag2.h _xpidlgen/nsIRecyclingAllocator.h _xpidlgen/nsIVariant.h _xpidlgen/nsISerializable.h _xpidlgen/nsIStringEnumerator.h _xpidlgen/nsISupportsArray.h _xpidlgen/nsISupportsIterators.h _xpidlgen/nsITimelineService.h _xpidlgen/nsIWindowsRegKey.h ../../dist/include/xpcom 
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIArray.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIMutableArray.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIObserverService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIObserver.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIProperties.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISimpleEnumerator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISupportsPrimitives.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIArray.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIMutableArray.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIObserverService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIObserver.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsIProperties.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISimpleEnumerator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/ds/nsISupportsPrimitives.idl ../../dist/sdk/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIArray.h _xpidlgen/nsIMutableArray.h _xpidlgen/nsIObserverService.h _xpidlgen/nsIObserver.h _xpidlgen/nsIProperties.h _xpidlgen/nsISimpleEnumerator.h _xpidlgen/nsISupportsPrimitives.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIArray.h _xpidlgen/nsIMutableArray.h _xpidlgen/nsIObserverService.h _xpidlgen/nsIObserver.h _xpidlgen/nsIProperties.h _xpidlgen/nsISimpleEnumerator.h _xpidlgen/nsISupportsPrimitives.h ../../dist/sdk/include
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/ds'
+]0;gmake: export in minefield-noncairo/xpcom/iomake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/io'
+Removing old dependencies file, .deps/.all.pp
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/io'
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/io'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsAppDirectoryServiceDefs.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsDirectoryService.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsEscape.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsFastLoadService.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsLinebreakConverter.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsLocalFile.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsMultiplexInputStream.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsScriptableInputStream.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsStorageStream.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsStringIO.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsStringStream.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsStreamUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsNativeCharsetUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsLocalFileWin.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsWinAPIs.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsDirectoryServiceDefs.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsDirectoryServiceUtils.h ../../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsDirectoryServiceDefs.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsDirectoryServiceUtils.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIBinaryInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIBinaryOutputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIDirectoryEnumerator.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIFastLoadFileControl.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIFastLoadService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIInputStreamTee.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsILocalFileWin.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsILineInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIUnicharLineInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsISimpleUnicharStreamFactory.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIMultiplexInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIObjectInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIObjectOutputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIPipe.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsISeekableStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIStorageStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIStringStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIStreamBufferAccess.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIAsyncInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIAsyncOutputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIUnicharInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIUnicharOutputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIConverterInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIConverterOutputStream.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIBinaryInputStream.h _xpidlgen/nsIBinaryOutputStream.h _xpidlgen/nsIDirectoryEnumerator.h _xpidlgen/nsIFastLoadFileControl.h _xpidlgen/nsIFastLoadService.h _xpidlgen/nsIInputStreamTee.h _xpidlgen/nsILocalFileWin.h _xpidlgen/nsILineInputStream.h _xpidlgen/nsIUnicharLineInputStream.h _xpidlgen/nsISimpleUnicharStreamFactory.h _xpidlgen/nsIMultiplexInputStream.h _xpidlgen/nsIObjectInputStream.h _xpidlgen/nsIObjectOutputStream.h _xpidlgen/nsIPipe.h _xpidlgen/nsISeekableStream.h _xpidlgen/nsIStorageStream.h _xpidlgen/nsIStringStream.h _xpidlgen/nsIStreamBufferAccess.h _xpidlgen/nsIAsyncInputStream.h _xpidlgen/nsIAsyncOutputStream.h _xpidlgen/nsIUnicharInputStream.h _xpidlgen/nsIUnicharOutputStream.h _xpidlgen/nsIConverterInputStream.h _xpidlgen/nsIConverterOutputStream.h ../../dist/include/xpcom 
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIDirectoryService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIFile.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsILocalFile.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIOutputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIScriptableInputStream.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIDirectoryService.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIFile.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsILocalFile.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIInputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIOutputStream.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/io/nsIScriptableInputStream.idl ../../dist/sdk/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIDirectoryService.h _xpidlgen/nsIFile.h _xpidlgen/nsILocalFile.h _xpidlgen/nsIInputStream.h _xpidlgen/nsIOutputStream.h _xpidlgen/nsIScriptableInputStream.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIDirectoryService.h _xpidlgen/nsIFile.h _xpidlgen/nsILocalFile.h _xpidlgen/nsIInputStream.h _xpidlgen/nsIOutputStream.h _xpidlgen/nsIScriptableInputStream.h ../../dist/sdk/include
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/io'
+]0;gmake: export in minefield-noncairo/xpcom/componentsmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/components'
+Removing old dependencies file, .deps/.all.pp
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/components'
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/components'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsCategoryManagerUtils.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsCategoryCache.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIServiceManagerObsolete.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsModule.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsObsoleteModuleLoading.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIModuleLoader.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIComponentManagerObsolete.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIModuleLoader.h _xpidlgen/nsIComponentManagerObsolete.h ../../dist/include/xpcom 
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIClassInfo.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIComponentRegistrar.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIFactory.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIModule.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIServiceManager.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIComponentManager.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsICategoryManager.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIClassInfo.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIComponentRegistrar.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIFactory.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIModule.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIServiceManager.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsIComponentManager.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/components/nsICategoryManager.idl ../../dist/sdk/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIClassInfo.h _xpidlgen/nsIComponentRegistrar.h _xpidlgen/nsIFactory.h _xpidlgen/nsIModule.h _xpidlgen/nsIServiceManager.h _xpidlgen/nsIComponentManager.h _xpidlgen/nsICategoryManager.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIClassInfo.h _xpidlgen/nsIComponentRegistrar.h _xpidlgen/nsIFactory.h _xpidlgen/nsIModule.h _xpidlgen/nsIServiceManager.h _xpidlgen/nsIComponentManager.h _xpidlgen/nsICategoryManager.h ../../dist/sdk/include
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/components'
+]0;gmake: export in minefield-noncairo/xpcom/threadsmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/threads'
+Removing old dependencies file, .deps/.all.pp
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/threads'
+make[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/threads'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsAutoLock.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsProcess.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsEventQueue.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIEventTarget.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIThread.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIThreadInternal.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIThreadManager.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIThreadPool.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsITimer.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIRunnable.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIEnvironment.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsIProcess.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/threads/nsISupportsPriority.idl ../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIEventTarget.h _xpidlgen/nsIThread.h _xpidlgen/nsIThreadInternal.h _xpidlgen/nsIThreadManager.h _xpidlgen/nsIThreadPool.h _xpidlgen/nsITimer.h _xpidlgen/nsIRunnable.h _xpidlgen/nsIEnvironment.h _xpidlgen/nsIProcess.h _xpidlgen/nsISupportsPriority.h ../../dist/include/xpcom 
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/threads'
+]0;gmake: export in minefield-noncairo/xpcom/reflectmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptinfomake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptinfo/publicmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo/public'
+Removing old dependencies file, .deps/.all.pp
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo/public'
+make[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo/public'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptinfo/public/xptinfo.h ../../../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptinfo/public/nsIInterfaceInfo.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptinfo/public/nsIInterfaceInfoManager.idl /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptinfo/public/nsIXPTLoader.idl ../../../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIInterfaceInfo.h _xpidlgen/nsIInterfaceInfoManager.h _xpidlgen/nsIXPTLoader.h ../../../../dist/include/xpcom 
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo/public'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptinfo/srcmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo/src'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo/src'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptinfo'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptcallmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptcall/publicmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/public'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptcall/public/xptcall.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptcall/public/xptcstubsdecl.inc /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/reflect/xptcall/public/xptcstubsdef.inc ../../../../dist/include/xpcom
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/public'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptcall/srcmake[7]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/src'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptcall/src/mdmake[8]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/src/md'
+]0;gmake: export in minefield-noncairo/xpcom/reflect/xptcall/src/md/win32make[9]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/src/md/win32'
+make[9]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/src/md/win32'
+make[8]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/src/md'
+make[7]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall/src'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect/xptcall'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/reflect'
+]0;gmake: export in minefield-noncairo/xpcom/proxymake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy'
+]0;gmake: export in minefield-noncairo/xpcom/proxy/publicmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy/public'
+Removing old dependencies file, .deps/.all.pp
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy/public'
+make[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy/public'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/proxy/public/nsProxiedService.h ../../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/proxy/public/nsIProxyObjectManager.idl ../../../dist/idl
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 _xpidlgen/nsIProxyObjectManager.h ../../../dist/include/xpcom 
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy/public'
+]0;gmake: export in minefield-noncairo/xpcom/proxy/srcmake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy/src'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy/src'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/proxy'
+]0;gmake: export in minefield-noncairo/xpcom/buildmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/build'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/build/nsXPCOMCIDInternal.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/build/nsXPCOM.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/build/nsXPCOMCID.h ../../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/build/nsXPCOM.h /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/build/nsXPCOMCID.h ../../dist/include/xpcom
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/pldhash.c /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayEnumerator.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsArrayUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMPtr.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCOMArray.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsCRTGlue.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsComponentManagerUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsEnumeratorUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsID.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsIInterfaceRequestorUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsINIParser.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsMemory.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsWeakReference.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsGREGlue.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVersionComparator.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsStringAPI.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTHashtable.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsQuickSort.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsVoidArray.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsTArray.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsThreadUtils.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsGenericFactory.cpp /cygdrive/c/mozilla/source/HEAD/mozilla/xpcom/glue/nsProxyRelease.cpp .
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/build'
+]0;gmake: export in minefield-noncairo/xpcom/stubmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/stub'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/stub'
+]0;gmake: export in minefield-noncairo/xpcom/toolsmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/tools'
+]0;gmake: export in minefield-noncairo/xpcom/tools/registrymake[6]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/tools/registry'
+make[6]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/tools/registry'
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom/tools'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 xpcom-config.h ../dist/sdk/include
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 xpcom-config.h ../dist/include/xpcom
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/xpcom'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg'
+]0;gmake: export in minefield-noncairo/modules/libreg/includemake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg/include'
+Creating ../../../dist/include/libreg
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libreg/include/VerReg.h /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libreg/include/NSReg.h ../../../dist/include/libreg
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg/include'
+]0;gmake: export in minefield-noncairo/modules/libreg/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg/src'
+/usr/bin/perl -I/cygdrive/c/mozilla/source/HEAD/mozilla/config /cygdrive/c/mozilla/source/HEAD/mozilla/config/build-list.pl ../../../config/final-link-libs mozreg_s
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg/src'
+]0;gmake: export in minefield-noncairo/modules/libreg/standalonemake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg/standalone'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libreg/src/reg.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libreg/src/VerReg.c /cygdrive/c/mozilla/source/HEAD/mozilla/modules/libreg/src/vr_stubs.c .
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg/standalone'
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/modules/libreg'
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+/usr/bin/make libs_tier_2
+make[3]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: `js/Makefile' is up to date.
+make[4]: `xpcom/Makefile' is up to date.
+make[4]: `modules/libreg/Makefile' is up to date.
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[4]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js'
+]0;gmake: libs in minefield-noncairo/js/src/fdlibmmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src/fdlibm'
+/cygdrive/c/mozilla/source/HEAD/mozilla/build/cygwin-wrapper /cygdrive/c/mozilla/tools/moztools/bin/nsinstall -m 644 fdm.lib ../../../dist/lib
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src/fdlibm'
+]0;gmake: libs in minefield-noncairo/js/srcmake[5]: Entering directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src'
+make[5]: *** No rule to make target `jsinterp.c', needed by `jsinterp.obj'.  Stop.
+make[5]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js/src'
+make[4]: *** [libs] Error 2
+make[4]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo/js'
+make[3]: *** [libs_tier_2] Error 2
+make[3]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[2]: *** [tier_2] Error 2
+make[2]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make[1]: *** [default] Error 2
+make[1]: Leaving directory `/cygdrive/c/mozilla/build/minefield-noncairo'
+make: *** [build] Error 2
