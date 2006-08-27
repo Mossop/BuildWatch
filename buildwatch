@@ -34,10 +34,14 @@
 #
 # Version history:
 #
+#  1.2.1   27 Aug 2006
+#   - Don't freak out on libs builds during tools tiers (Mossop)
+#   - Fix directory parsing for modified trees (Mossop)
+#
 #  1.2     26 Aug 2006
 #   - Bug 325096 made a large change to the build output. ldap no longer appears
 #     to be made as standard. tier dirs are now more difficult to find. (Mossop)
-#   - Now displays the tools build section for trunk builds
+#   - Now displays the tools build section for trunk builds (Mossop)
 #
 #  1.1.5   03 Apr 2006
 #   - Bug 329358 changed the string used to set xterm titles. This update allows
@@ -425,7 +429,7 @@ BEGIN {
 
 ######################################################################################
 # Tier dir detected
-/^make\[[0123456789]\]: `(.+)\/Makefile' is up to date\.$/ {
+/^make\[[0123456789]\]: `.+\/Makefile' is up to date\.$/ {
   if (scantier) {
     printf CURSORLEFT(1) " " CURSORLEFT(1)
     epos = index($0, "Makefile")
@@ -437,9 +441,27 @@ BEGIN {
     else
       DrawLine(RED,RED,0,0)
     printf "\n"
-    if (DEBUG) {
+    if (DEBUG)
       print "Found tier dir " dir[ndirs] > "/dev/stderr"
-    }
+  }
+}
+
+######################################################################################
+# Tier dir detected
+/^updating .+\/Makefile$/ {
+  if (scantier) {
+    printf CURSORLEFT(1) " " CURSORLEFT(1)
+    epos = index($0, "Makefile")
+    ndirs++
+    dir[ndirs] = substr($0, 10, epos-11)
+    curdir++
+    if (dotools)
+      DrawTools(RED,0)
+    else
+      DrawLine(RED,RED,0,0)
+    printf "\n"
+    if (DEBUG)
+      print "Found tier dir " dir[ndirs] > "/dev/stderr"
   }
 }
 
@@ -449,9 +471,9 @@ BEGIN {
   if (scantier) {
     printf CURSORLEFT(1) " " CURSORLEFT(1) CURSORUP(ndirs+1)
     if (dotools)
-      printf "%stools tier %g - %d dirs:",WHITE,tier,ndirs
+      printf "%s%stools tier %g - %d dirs:",RED,WHITE,tier,ndirs
     else
-      printf "%stier %g - %d dirs:",WHITE,tier,ndirs
+      printf "%s%stier %g - %d dirs:",RED,WHITE,tier,ndirs
     printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
   
     curdir = 0
@@ -482,9 +504,9 @@ BEGIN {
   }
   printf CURSORUP(ndirs+1)
   if (ndir == 1)
-    printf "tier %g - %d dir:",tier,ndirs
+    printf "%s%stier %g - %d dir:",RED,WHITE,tier,ndirs
   else
-    printf "tier %g - %d dirs:",tier,ndirs
+    printf "%s%stier %g - %d dirs:",RED,WHITE,tier,ndirs
   printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
   
   # set up vars
@@ -597,7 +619,7 @@ $0 ~ nextmatch {
 ######################################################################################
 # 
 /\033][02];gmake: tools / {			# tools subdir
-  if (!firsttier) {
+  if (!firsttier && dotools) {
     printf LINEHOME
     DrawTools(YELLOW,nsubdirs[curdir]++)
   }
@@ -606,7 +628,7 @@ $0 ~ nextmatch {
 ######################################################################################
 # 
 /\033][02];gmake: export / {			# export subdir
-  if (!firsttier) {
+  if (!firsttier && !dotools) {
     printf LINEHOME
     DrawLine(YELLOW,RED,nsubdirs[curdir]++,0)
 
@@ -620,7 +642,7 @@ $0 ~ nextmatch {
 ######################################################################################
 #
 /\033][02];gmake: libs / {				# lib subdir 
-  if (!firsttier) {
+  if (!firsttier && !dotools) {
     printf LINEHOME
     DrawLine(GREEN,YELLOW,nsubdirs[curdir],donedirs[curdir]++)
 
@@ -741,12 +763,12 @@ function DrawLine(expstat, libstat, nsub, nsubdone) {
   printf TSTRING			# write xterm title
   if (nsub > 0) {
     if (nsubdone > 0) 			# some export subdir, some libs as well
-      printf "%s%8s [%2g]    %s%6s [%2g]      %s%-44s ", expstat,"export",nsub,libstat,"libs",nsubdone,WHITE,dir[curdir]
+      printf "%s%8s [%2g]    %s%6s [%2g]      %s%s%-44s ", expstat,"export",nsub,libstat,"libs",nsubdone,RED,WHITE,dir[curdir]
     else				# some export subdir, no libs subdir yet
-      printf "%s%8s [%2g]    %s%6s           %s%-44s ", expstat,"export",nsub,libstat,"libs",WHITE,dir[curdir]
+      printf "%s%8s [%2g]    %s%6s           %s%s%-44s ", expstat,"export",nsub,libstat,"libs",RED,WHITE,dir[curdir]
   } 
   else 					# no subdirs
-      printf "%s%8s         %s%6s           %s%-44s ", expstat,"export",libstat,"libs",WHITE,dir[curdir]
+      printf "%s%8s         %s%6s           %s%s%-44s ", expstat,"export",libstat,"libs",RED,WHITE,dir[curdir]
 
   if (SLOW)				# delay to slow things down
     system("sleep 0.1")
