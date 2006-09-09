@@ -34,6 +34,10 @@
 #
 # Version history:
 #
+#  1.2.2   30 Aug 2006
+#   - Preliminary fixes for bsmedberg's second round of changes, bug 350211 
+#     May break old style builds, not tested yet (NThomas)
+#
 #  1.2.1   27 Aug 2006
 #   - Don't freak out on libs builds during tools tiers (Mossop)
 #   - Fix directory parsing for modified trees (Mossop)
@@ -247,8 +251,7 @@ BEGIN {
   dir[1] = "configure mozilla"
   dir[2] = "configure nspr"
   dir[3] = "make export config"
-  dir[4] = "make nspr"
-  ndirs = 4
+  ndirs = 3
 
   printf "%s \n%s%s",CURSORLEFT(1),RED,WHITE     	# bug with highlight requires RED first !
   printf "prebuild:"
@@ -286,8 +289,7 @@ BEGIN {
 /-C config export/ {
   if (curdir == 0)  {		# no configures done
     dir[1] = "make export config"
-    dir[2] = "make nspr"
-    ndirs = 2
+    ndirs = 1
 
     TSTRING = sprintf("%s%s - exp [%2g/%2g] %s%s",TITLE,"pb",1,ndirs,dir[1],ENDTITLE)
     printf TSTRING			# write xterm title
@@ -348,10 +350,10 @@ BEGIN {
 # 
 ######################################################################################
 # next tier - clean up last tier and prepare to find dirs
-/make (export_tier_|tier_)([0123456789]+)$/ {
+/make export_tier_[a-zA-Z]+$/ {
   tpos = index($0,"tier_")
   ntier = substr($0,tpos+5)            # get current tier
-
+ 
   # Avoid spotting a tier twice
   if (ntier != tier) {
     if (firsttier) {                      # special initialisations on first tier
@@ -360,7 +362,6 @@ BEGIN {
       printf LINEHOME			# tidy up prebuild
       printf "%s  %-76s \n", GREEN, dir[curdir]
      
-  
       if (DEBUG) {
         print "################################################################" > "/dev/stderr"
         print ("Run starting " strftime() " on " FILENAME) > "/dev/stderr"
@@ -389,11 +390,11 @@ BEGIN {
     firstexport = 1     			# this is the first export
     firstlib = 1	      			# this is the first libs, not really for all export lines, but not tested till first lib
     split("",nsubdirs); 			# clear no of sub dirs array
-    split("",donedirs);			  # clear no of sub dirs array
+    split("",donedirs);			  	# clear no of sub dirs array
   
     # draw tier
     printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
-    printf "tier %g:",tier
+    printf "tier %s:",tier
     print RED
     
     scantier = 1
@@ -402,7 +403,7 @@ BEGIN {
 
 ######################################################################################
 # tools tier
-/make tools_tier_([0123456789]+)$/ {
+/make tools_tier_[a-zA-Z]+$/ {
   printf LINEHOME
   if (dotools) {
     DrawTools(GREEN,nsubdirs[curdir])
@@ -419,7 +420,7 @@ BEGIN {
   curdir = 0
 
   printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
-  printf "tools tier %g:",tier
+  printf "tools tier %s:",tier
   print RED
   
   dotools = 1
@@ -471,9 +472,9 @@ BEGIN {
   if (scantier) {
     printf CURSORLEFT(1) " " CURSORLEFT(1) CURSORUP(ndirs+1)
     if (dotools)
-      printf "%s%stools tier %g - %d dirs:",RED,WHITE,tier,ndirs
+      printf "%s%stools tier %s - %d dirs:",RED,WHITE,tier,ndirs
     else
-      printf "%s%stier %g - %d dirs:",RED,WHITE,tier,ndirs
+      printf "%s%stier %s - %d dirs:",RED,WHITE,tier,ndirs
     printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
   
     curdir = 0
@@ -655,7 +656,7 @@ $0 ~ nextmatch {
 
 ######################################################################################
 # handle error in compilation
-/ Stop|error\ / {
+/ Stop|make.*Error\ / {
   if (!errorquit) {
     print LINEHOME CURSORDOWN(ndirs-curdir+1)
     print RESET "Error caught:\n"
@@ -797,22 +798,26 @@ function DrawTools(stat, nsub) {
 
 ######################################################################################
 function CURSORLEFT(n) {   # Go left n characters
-   return "\033[" n "D"
+   if (n > 0)
+     return "\033[" n "D"
 }
 
 ######################################################################################
 function CURSORRIGHT(n) {  # Go right n characters
-   return "\033[" n "C"
+   if (n > 0)
+     return "\033[" n "C"
 }
 
 ######################################################################################
 function CURSORDOWN(n) {   # Go down the screen n lines
-   return "\033[" n "B"
+   if (n > 0)
+     return "\033[" n "B"
 }
 
 ######################################################################################
 function CURSORUP(n) {     # Go up the screen n lines
-   return "\033[" n "A"
+   if (n > 0)
+     return "\033[" n "A"
 }
 
 ######################################################################################
