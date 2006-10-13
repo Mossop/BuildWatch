@@ -34,6 +34,10 @@
 #
 # Version history:
 #
+#  1.2.3   13 Oct 2005
+#   - Fix terminal titles with new tier styles - was saying tier 0 for all 
+#      (NThomas)
+#
 #  1.2.2   30 Aug 2006
 #   - Preliminary fixes for bsmedberg's second round of changes, bug 350211 
 #     May break old style builds, not tested yet (NThomas)
@@ -265,8 +269,7 @@ BEGIN {
 
   curdir = 1
 
-  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
-  printf TSTRING			# write xterm title
+  UpdateTitle("pb","","",curdir,ndirs,dir[curdir])
 
   printf "%s  %-76s%s ", YELLOW ,dir[curdir],WHITE
 }
@@ -280,8 +283,7 @@ BEGIN {
   curdir++
   printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
 
-  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
-  printf TSTRING			# write xterm title
+  UpdateTitle("pb","","",curdir,ndirs,dir[curdir])
 }
 
 ######################################################################################
@@ -291,8 +293,7 @@ BEGIN {
     dir[1] = "make export config"
     ndirs = 1
 
-    TSTRING = sprintf("%s%s - exp [%2g/%2g] %s%s",TITLE,"pb",1,ndirs,dir[1],ENDTITLE)
-    printf TSTRING			# write xterm title
+    UpdateTitle("pb","","exp",1,ndirs,dir[1])
 
     printf "%s \n%s%s",CURSORLEFT(1),RED,WHITE     	# bug with highlight requires RED first !
     printf "prebuild:"
@@ -313,8 +314,7 @@ BEGIN {
     curdir++
     printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
 
-    TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
-    printf TSTRING			# write xterm title
+    UpdateTitle("pb","","",curdir,ndirs,dir[curdir])
   }
 }
 
@@ -326,8 +326,7 @@ BEGIN {
   curdir++
   printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
 
-  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
-  printf TSTRING                      # write xterm title
+  UpdateTitle("pb","","",curdir,ndirs,dir[curdir])
 }
 
 ######################################################################################
@@ -340,8 +339,7 @@ BEGIN {
   ndirs++
   printf "%s  %-76s%s ", YELLOW, dir[curdir], WHITE
 
-  TSTRING = sprintf("%s%s - [%2g/%2g] %s%s",TITLE,"pb",curdir,ndirs,dir[curdir],ENDTITLE)
-  printf TSTRING                      # write xterm title
+  UpdateTitle("pb","","",curdir,ndirs,dir[curdir])
 }
 
 
@@ -396,7 +394,8 @@ BEGIN {
     printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
     printf "tier %s:",tier
     print RED
-    
+    UpdateTitle("t ",tier,"scan",0,0,"")    
+
     scantier = 1
   }
 }
@@ -538,7 +537,7 @@ $0 ~ nextmatch {
       printf LINEHOME
       nsubdirs[curdir] = 0
       curdir++
-      TSTRING = sprintf("%s%s%2g - tools [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      UpdateTitle("t ",tier,"tools",curdir,ndirs,dir[curdir])
       DrawTools(YELLOW,0)
       firsttools = 0 
     }
@@ -547,7 +546,7 @@ $0 ~ nextmatch {
       DrawTools(GREEN,nsubdirs[curdir])
       curdir++
       printf "\n"
-      TSTRING = sprintf("%s%s%2g - tools [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      UpdateTitle("t ",tier,"tools",curdir,ndirs,dir[curdir])
       DrawTools(YELLOW,0)
       nsubdirs[curdir] = 0
     }
@@ -558,7 +557,7 @@ $0 ~ nextmatch {
       printf LINEHOME
       nsubdirs[curdir] = 0
       curdir++
-      TSTRING = sprintf("%s%s%2g - exp [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      UpdateTitle("t ",tier,"exp",curdir,ndirs,dir[curdir])
       DrawLine(YELLOW,RED,0,0)
       firstexport = 0 
       if (DEBUG)
@@ -569,7 +568,7 @@ $0 ~ nextmatch {
       DrawLine(GREEN,RED,nsubdirs[curdir],0)
       curdir++
       printf "\n"
-      TSTRING = sprintf("%s%s%2g - exp [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      UpdateTitle("t ",tier,"exp",curdir,ndirs,dir[curdir])
       DrawLine(YELLOW,RED,0,0)
       nsubdirs[curdir] = 0
       if (DEBUG)
@@ -583,7 +582,7 @@ $0 ~ nextmatch {
       printf LINEHOME CURSORUP(ndirs-1)
       curdir = 1
       donedirs[curdir] = 0
-      TSTRING = sprintf("%s%s%2g - lib [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      UpdateTitle("t ",tier,"lib",curdir,ndirs,dir[curdir])
       DrawLine(GREEN,YELLOW,nsubdirs[curdir],0)
       firstlib = 0
       if (DEBUG)
@@ -595,7 +594,7 @@ $0 ~ nextmatch {
       curdir++
       donedirs[curdir] = 0
       printf "\n"
-      TSTRING = sprintf("%s%s%2g - lib [%2g/%2g] %s%s",TITLE,"t",tier,curdir,ndirs,dir[curdir],ENDTITLE)
+      UpdateTitle("t ",tier,"lib",curdir,ndirs,dir[curdir])
       DrawLine(GREEN,YELLOW,nsubdirs[curdir],0)
       if (DEBUG)
         print ("  --> libs, curdir: " curdir " " dir[curdir] ", firstexport: " firstexport ", firstlib: " firstlib ) > "/dev/stderr"
@@ -761,7 +760,6 @@ function BuildNextMatch(dir) {
 #
 function DrawLine(expstat, libstat, nsub, nsubdone) {
 
-  printf TSTRING			# write xterm title
   if (nsub > 0) {
     if (nsubdone > 0) 			# some export subdir, some libs as well
       printf "%s%8s [%2g]    %s%6s [%2g]      %s%s%-44s ", expstat,"export",nsub,libstat,"libs",nsubdone,RED,WHITE,dir[curdir]
@@ -780,7 +778,7 @@ function DrawLine(expstat, libstat, nsub, nsubdone) {
 ######################################################################################
 #
 function DrawTools(stat, nsub) {
-  printf TSTRING			# write xterm title
+#  printf TSTRING			# write xterm title
   if (nsub > 0) {
     printf "%s  %s [%2g]%s", stat,dir[curdir],nsub,WHITE
     count = 72-length(dir[curdir])
@@ -829,3 +827,17 @@ function UpdateCVSTitle() {
     TSTRING = sprintf("%s%s %s%s",TITLE,"co",cvs_string,ENDTITLE)
   printf TSTRING			# write xterm title
 }
+
+######################################################################################
+function UpdateTitle(t1,t2,j,d1,d2,dn) {
+# eg UpdateTitle("t",tier,"exp",curdir,ndirs,dir[curdir])
+
+  TSTRING = sprintf("%s%s%s - %s [%2g/%2g] %s%s",TITLE,t1,t2,j,d1,d2,dn,ENDTITLE)
+  printf TSTRING			# write xterm title
+
+  if (SLOW)				# delay to slow things down
+    system("sleep 0.1")
+  if (REALSLOW)				# delay to watch real careful y'all
+    system("sleep 1.0")
+}
+
