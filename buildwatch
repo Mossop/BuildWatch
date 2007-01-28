@@ -29,10 +29,13 @@
 # - errors not always handled properly (doesn't start echoing soon
 #   enough and I once got false reports of completed build).
 # - I was learning awk at the time, it's ugly code :-)
-# - tool_tiers_<n> is not supported, so libs in tier 50 toolkit/library appears to
-#   take a very long time
 #
 # Version history:
+#
+#  1.2.4   28 Jan 2007
+#   - Fix tier detection on current trunk (Mossop)
+#   - Fix alignment on broken terminals (Mossop)
+#   - Handling for broken tiers (i.e. nspr) (Mossop)
 #
 #  1.2.3   13 Oct 2005
 #   - Fix terminal titles with new tier styles - was saying tier 0 for all 
@@ -106,7 +109,7 @@ BEGIN {
  
  UNDER   = "\033[4m"        # underline
  ERASELINE = "\033[2K"      # Erase line
- LINEHOME = CURSORLEFT(80)  # Move to the start of the line
+ LINEHOME = CURSORLEFT(79)  # Move to the start of the line
  TITLE   = "\033]0;"        # Change window title PREFIX
  ENDTITLE= "\007"           # Change window title SUFFIX
 
@@ -124,7 +127,7 @@ BEGIN {
 
  firsttier =  1             # looking for our first tier, goes -> 0 on second
  tier      = -1             # init current tier 
- scantier  =  0             # Set to 1 when scanning for tier dirs
+ scantools =  0             # Set to 1 when scanning for tier dirs
  
  throbpos  = 0
  
@@ -347,70 +350,9 @@ BEGIN {
 # Main build
 # 
 ######################################################################################
-# next tier - clean up last tier and prepare to find dirs
-/make export_tier_[a-zA-Z]+$/ {
-  tpos = index($0,"tier_")
-  ntier = substr($0,tpos+5)            # get current tier
- 
-  # Avoid spotting a tier twice
-  if (ntier != tier) {
-    if (firsttier) {                      # special initialisations on first tier
-      firsttier = 0
-  
-      printf LINEHOME			# tidy up prebuild
-      printf "%s  %-76s \n", GREEN, dir[curdir]
-     
-      if (DEBUG) {
-        print "################################################################" > "/dev/stderr"
-        print ("Run starting " strftime() " on " FILENAME) > "/dev/stderr"
-        print " " > "/dev/stderr"
-      }
-    }
-    else if (dotools) {
-      printf LINEHOME
-      DrawTools(GREEN,nsubdirs[curdir])
-      printf "\n"
-    }
-    else {                                # tidy end of last tier if not the first
-      printf LINEHOME
-      DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
-      printf "\n"
-      if (DEBUG) 
-        print ("  --> tidy last tier, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
-    }
-  
-    tier = ntier
-    ndirs = 0
-    curdir = 0
-
-    dotools = 0
-    doexport = 1        			# we're doing exports at the moment
-    firstexport = 1     			# this is the first export
-    firstlib = 1	      			# this is the first libs, not really for all export lines, but not tested till first lib
-    split("",nsubdirs); 			# clear no of sub dirs array
-    split("",donedirs);			  	# clear no of sub dirs array
-  
-    # draw tier
-    printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
-    printf "tier %s:",tier
-    print RED
-    UpdateTitle("t ",tier,"scan",0,0,"")    
-
-    scantier = 1
-  }
-}
-
-######################################################################################
 # tools tier
-/make tools_tier_[a-zA-Z]+$/ {
-  printf LINEHOME
-  if (dotools) {
-    DrawTools(GREEN,nsubdirs[curdir])
-  }
-  else {
-    DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
-  }
-  printf "\n"
+/make tools_tier_([0123456789a-zA-Z]+)$/ {
+  FinishLastTier();
 
   tpos = index($0,"tier_")
   tier = substr($0,tpos+5)            # get current tier
@@ -424,91 +366,62 @@ BEGIN {
   
   dotools = 1
   firsttools = 1     			# this is the first tools
-  scantier = 1
+  scantools = 1
+  nextmatch = "=_=_=_=_=_=_="
 }
 
 ######################################################################################
-# Tier dir detected
-/^make\[[0123456789]\]: `.+\/Makefile' is up to date\.$/ {
-  if (scantier) {
-    printf CURSORLEFT(1) " " CURSORLEFT(1)
-    epos = index($0, "Makefile")
+# tools tier dir detection
+/make\[[0-9]\]: `(.+)\/Makefile' is up to date./ {
+  if (scantools) {
     ndirs++
-    dir[ndirs] = substr($0, 11, epos-12)
     curdir++
-    if (dotools)
-      DrawTools(RED,0)
-    else
-      DrawLine(RED,RED,0,0)
-    printf "\n"
-    if (DEBUG)
-      print "Found tier dir " dir[ndirs] > "/dev/stderr"
+    spos = index($0,":")
+    epos = index($0,"/Makefile")
+    dir[ndirs] = substr($0,spos+3,epos-spos-3)
+    printf "%s %s\n",CURSORLEFT(1),LINEHOME
+    DrawTools(RED,0)
+    if (ndirs == 1)
+      nextmatch = BuildNextMatch(dir[1])
   }
 }
 
 ######################################################################################
-# Tier dir detected
-/^updating .+\/Makefile$/ {
-  if (scantier) {
-    printf CURSORLEFT(1) " " CURSORLEFT(1)
-    epos = index($0, "Makefile")
-    ndirs++
-    dir[ndirs] = substr($0, 10, epos-11)
-    curdir++
-    if (dotools)
-      DrawTools(RED,0)
-    else
-      DrawLine(RED,RED,0,0)
-    printf "\n"
-    if (DEBUG)
-      print "Found tier dir " dir[ndirs] > "/dev/stderr"
-  }
-}
+# Tier detected
+/^tier_([0123456789a-zA-Z]+):/ {
+  tpos = index($0,"tier_")
+  epos = index($0,":")
+  tier = substr($0,tpos+5,epos-6)            # get current tier
 
-######################################################################################
-# End of tier dirs
-/^make\[[0123456789]\]: Leaving directory/ {
-  if (scantier) {
-    printf CURSORLEFT(1) " " CURSORLEFT(1) CURSORUP(ndirs+1)
-    if (dotools)
-      printf "%s%stools tier %s - %d dirs:",RED,WHITE,tier,ndirs
-    else
-      printf "%s%stier %s - %d dirs:",RED,WHITE,tier,ndirs
-    printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
+  FinishLastTier();
+
+  dotools = 0
+  doexport = 1        			# we're doing exports at the moment
+  firstexport = 1     			# this is the first export
+  firstlib = 1	      			# this is the first libs, not really for all export lines, but not tested till first lib
+  split("",nsubdirs); 			# clear no of sub dirs array
+  split("",donedirs);			  # clear no of sub dirs array
   
-    curdir = 0
-    nextmatch = BuildNextMatch(dir[1])
-  
-    if (DEBUG) {
-      print "Found end of tier dirs " > "/dev/stderr"
-    }
-
-    scantier = 0
-  }
-}
-
-######################################################################################
-# Old style tier detected
-/^tier_([0123456789]+):/ {
-  printf CURSORLEFT(1) " " CURSORLEFT(1)
-
   # parse info
-  tpos = index($0,":")
-  dirstring = substr($0,tpos+2)         # listof dirs
+  dirstring = substr($0,epos+2)         # listof dirs
   split(dirstring,dir)                  # get dirs for tier
   ndirs = NF -1                         # set number of dir counter
+
+  # draw tier
+  printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
+  if (ndirs == 1)
+    printf "%s%stier %s - %d dir:",RED,WHITE,tier,ndirs
+  else
+    printf "%s%stier %s - %d dirs:",RED,WHITE,tier,ndirs
+  print RED
 
   for (curdir=1;curdir<=ndirs;curdir++) {
     DrawLine(RED,RED,0,0)
     printf "\n"
   }
   printf CURSORUP(ndirs+1)
-  if (ndir == 1)
-    printf "%s%stier %g - %d dir:",RED,WHITE,tier,ndirs
-  else
-    printf "%s%stier %g - %d dirs:",RED,WHITE,tier,ndirs
   printf "\n" CURSORRIGHT(79)		# only this code resets the cursor position after itself !
-  
+
   # set up vars
   curdir = 0
   nextmatch = BuildNextMatch(dir[1])
@@ -519,8 +432,6 @@ BEGIN {
     print (tier " " ndirs " " dirstring) > "/dev/stderr"
     print ("nextmatch: " nextmatch ", curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib "\n" ) > "/dev/stderr"
   }
-
-  scantier = 0
 }
 
 
@@ -534,12 +445,19 @@ $0 ~ nextmatch {
 
   if (dotools) {
     if (firsttools) {
-      printf LINEHOME
+      printf "%s %s",CURSORLEFT(1),LINEHOME
+      printf CURSORUP(ndirs)
+      if (ndirs == 1)
+        printf "%s%stools tier %s - %d dir:",RED,WHITE,tier,ndirs
+      else
+        printf "%s%stools tier %s - %d dirs:",RED,WHITE,tier,ndirs
+      print RED
+      curdir = 1
       nsubdirs[curdir] = 0
-      curdir++
       UpdateTitle("t ",tier,"tools",curdir,ndirs,dir[curdir])
       DrawTools(YELLOW,0)
       firsttools = 0 
+      scantools = 0
     }
     else {
       printf LINEHOME
@@ -748,6 +666,40 @@ END {
 
 }
 
+
+######################################################################################
+#
+function FinishLastTier() {
+  if (firsttier) {                      # special cleanup on first tier
+    firsttier = 0
+  
+    printf LINEHOME			# tidy up prebuild
+    printf "%s  %-76s \n", GREEN, dir[curdir]
+     
+  
+    if (DEBUG) {
+      print "################################################################" > "/dev/stderr"
+      print ("Run starting " strftime() " on " FILENAME) > "/dev/stderr"
+      print " " > "/dev/stderr"
+    }
+  }
+  else if (dotools) {
+    printf LINEHOME
+    DrawTools(GREEN,nsubdirs[curdir])
+    printf "\n"
+  }
+  else {                                # tidy end of last tier if not the first
+    printf LINEHOME
+    DrawLine(GREEN,GREEN,nsubdirs[curdir],donedirs[curdir]) 
+    while (curdir<ndirs) {
+      printf "\n"
+      curdir++
+    }
+    printf "\n"
+    if (DEBUG) 
+      print ("  --> tidy last tier, curdir: " curdir ", firstexport: " firstexport ", firstlib: " firstlib) > "/dev/stderr"
+  }
+}
 
 ######################################################################################
 #
