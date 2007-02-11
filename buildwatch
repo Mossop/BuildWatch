@@ -1,4 +1,4 @@
-#! /usr/bin/awk -f
+#! /usr/bin/gawk -f
 
 # buildwatch-trunk - Nick Thomas - nrthomas@gmail.com
 #
@@ -9,6 +9,7 @@
 # - gawk: you may have have to adjust the path to gawk at the top of
 #         the scripts if using Linux rather than Cygwin.
 # - in your mozconfig: "ac_add_options --enable-xterm-updates"
+#        also for OSX: "mk_add_options MOZ_MAKE_FLAGS="-w"
 #
 # Installation:
 # - save it somewhere convenient and make sure it's chmod +x , use ~/bin
@@ -31,6 +32,11 @@
 # - I was learning awk at the time, it's ugly code :-)
 #
 # Version history:
+#
+#  1.2.5   10 Feb 2007
+#   - Fix configure detection (Mossop)
+#   - Ignore ignored make errors (Mossop)
+#   - Some fixes for multi-app builds (Mossop)
 #
 #  1.2.4   28 Jan 2007
 #   - Fix tier detection on current trunk (Mossop)
@@ -254,7 +260,7 @@ BEGIN {
 #
 ######################################################################################
 # mozilla/configure, with hardcoded elements for prebuild (nspr and the like)
-/^[^UM]*mozilla\/configure$/ {
+/^[^UPMC].*mozilla\/configure$/ {
   dir[1] = "configure mozilla"
   dir[2] = "configure nspr"
   dir[3] = "make export config"
@@ -271,6 +277,7 @@ BEGIN {
   printf CURSORUP(ndirs) 		# only this code resets the cursor position after itself !
 
   curdir = 1
+  firsttier = 1
 
   UpdateTitle("pb","","",curdir,ndirs,dir[curdir])
 
@@ -309,6 +316,7 @@ BEGIN {
     printf CURSORUP(ndirs)		# only this code resets the cursor position after itself !
 
     curdir = 1
+    firsttier = 1
     printf "%s  %-76s%s ", YELLOW ,dir[curdir], WHITE
   }
   else {
@@ -361,8 +369,7 @@ BEGIN {
   curdir = 0
 
   printf "%s%s\n",RED,WHITE     	# bug with highlight requires RED first !
-  printf "tools tier %s:",tier
-  print RED
+  printf "tools tier %s:%s",tier,RED
   
   dotools = 1
   firsttools = 1     			# this is the first tools
@@ -573,7 +580,7 @@ $0 ~ nextmatch {
 
 ######################################################################################
 # handle error in compilation
-/ Stop|make.*Error\ / {
+/ Stop|make.*Error \d*$/ {
   if (!errorquit) {
     print LINEHOME CURSORDOWN(ndirs-curdir+1)
     print RESET "Error caught:\n"
