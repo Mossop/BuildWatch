@@ -580,7 +580,7 @@ $0 ~ nextmatch {
 
 ######################################################################################
 # handle error in compilation
-/ Stop|make.*Error \d*$/ {
+/ make.*Error \d*$/ {
   if (!errorquit) {
     print LINEHOME CURSORDOWN(ndirs-curdir+1)
     print RESET "Error caught:\n"
