@@ -451,7 +451,7 @@ class LogParser:
           if not objdir.startswith("/"):
             separator = "\\\\"
             objdir = objdir.replace("\\", "\\\\")
-          self.enterreg = re.compile("(?:[\007^]g?make|make\\.py)\\[\\d+\\]: Entering directory .%s%s(.+).$" % (objdir, separator))
+          self.enterreg = re.compile("make(?:\\.py)?\\[\\d+\\]: Entering directory .%s%s(.+).$" % (objdir, separator))
           self.donereg = re.compile("(?:g?make\\[1\\]|make\\.py\\[0\\]): Leaving directory .%s." % objdir)
           break
         line = fp.readline()
