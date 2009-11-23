@@ -46,6 +46,8 @@
 #     make -f client.mk 2>&1 build | tee <logfile> | python /path/to/buildwatch.py
 #
 # Version history:
+# - 1.1.0   Nov 22 2009
+#     Support windows and pymake
 # - 1.0.1   Nov 22 2009
 #     Fix object dir detection and directory entries on Linux
 # - 1.0.0   Nov 22 2009
@@ -53,27 +55,20 @@
 #     regular expressions taken from the original gawk script available at
 #     http://svn.oxymoronical.com/dave/mozilla/BuildWatch/trunk/buildwatch
 
-import sys, re, time
+import os, sys, re, time
 from datetime import datetime
+from console import Console
 
 # The Output receives signals during the build process so it can update its
 # display.
 class ConsoleOutput:
-  BLACK = 0
-  RED = 1
-  GREEN = 2
-  YELLOW = 3
-  BLUE = 4
-  MAGENTA = 5
-  CYAN = 6
-  WHITE = 7
-
   PENDING = 0
   INPROGRESS = 1
   COMPLETE = 2
 
   start = None
   fp = None
+  console = None
   pos = 0
   tier = None
   dirs = None
@@ -85,15 +80,16 @@ class ConsoleOutput:
   throbpos = 0
 
   def __init__(self, fp):
+    self.console = Console(fp)
     self.fp = fp
     # Reset the display
-    self._clear_title()
-    self._reset_color()
+    self.console.clear_title()
+    self.console.reset_color()
+    self.console.clear()
     # Clear the screen and go to the top left
     self.start = datetime.now()
-    self.fp.write("\033[H\033[2J")
     self.fp.write("Build started at %s\n" % self.start.strftime("%H:%M:%S"))
-    self._go_right(79)
+    self.console.go_right(79)
 
   def destroy(self):
     now = datetime.now()
@@ -102,125 +98,89 @@ class ConsoleOutput:
     hours, minutes = divmod(delta, 60)
     if not self.failed:
       self._go_to_end();
-      self._clear_title()
-      self._reset_color();
+      self.console.clear_title()
+      self.console.reset_color();
       self.fp.write("\nBuild completed at %s taking %d:%02d:%02d\n\n" % (now.strftime("%H:%M:%S"), hours, minutes, seconds))
     else:
       self.fp.write("\nBuild failed at %s taking %d:%02d:%02d\n\n" % (now.strftime("%H:%M:%S"), hours, minutes, seconds))
 
   def _go_to_pos(self, pos):
     self._clear_throbber()
-    if pos > self.pos:
-      self._go_down(pos - self.pos)
-    elif self.pos > pos:
-      self._go_up(self.pos - pos)
-    self._go_linehome()
+    self.console.go_to_pos(pos)
+    self.console.go_linehome()
 
   def _go_to_end(self):
     self._go_to_pos(0)
 
-  def _go_linehome(self):
-    self._go_left(79)
-
-  def _go_left(self, chars):
-    if chars > 0:
-      self.fp.write("\033[%sD" % chars)
-
-  def _go_right(self, chars):
-    if chars > 0:
-      self.fp.write("\033[%sC" % chars)
-
-  def _go_up(self, lines):
-    if lines > 0:
-      self.fp.write("\033[%sA" % lines)
-      self.pos -= lines
-
-  def _go_down(self, lines):
-    if lines > 0:
-      self.fp.write("\033[%sB" % lines)
-      self.pos += lines
-
-  def _reset_color(self):
-    self.fp.write("\033[0m")
-
-  def _set_color(self, foreground, bright = True, background = None):
-    self.fp.write("\033[")
-    if bright:
-      self.fp.write("1;")
-    self.fp.write(str(foreground + 30))
-    if background is not None:
-      self.fp.write(";%s" % (background + 40))
-    self.fp.write("m")
-
   def _color_for_state(self, state, count = 0):
     if state == self.COMPLETE:
-      return self.GREEN
+      return self.console.GREEN
     if state == self.INPROGRESS or count > 0:
-      return self.YELLOW
-    return self.RED
+      return self.console.YELLOW
+    return self.console.RED
 
   def _print_tier_line(self, export_state, export_count, libs_state, libs_count, name):
-    self._set_color(self._color_for_state(export_state, export_count))
+    self.console.set_color(self._color_for_state(export_state, export_count))
     self.fp.write("  export ")
     if export_count > 0:
       self.fp.write("[%2s]      " % export_count)
     else:
       self.fp.write("          ")
-    self._set_color(self._color_for_state(libs_state, libs_count))
+    self.console.set_color(self._color_for_state(libs_state, libs_count))
     self.fp.write("libs ")
     if libs_count > 0:
       self.fp.write("[%2s]      " % libs_count)
     else:
       self.fp.write("          ")
-    self._reset_color()
+    self.console.reset_color()
     self.fp.write("%-45s" % name)
+    self._draw_throbber()
 
   def _print_tools_line(self, state, count, name):
-    self._set_color(self._color_for_state(state, count))
+    self.console.set_color(self._color_for_state(state, count))
     self.fp.write("  %s " % name)
     if count > 0:
       self.fp.write("[%2s]" % count)
     else:
       self.fp.write("    ")
-    self._reset_color()
-    self._go_right(79 - (7 + len(name)))
-
-  def _set_title(self, text):
-    self.fp.write("\033]0;%s\007" % text)
-
-  def _clear_title(self):
-    self._set_title("")
+    self.console.reset_color()
+    self.console.go_right(79 - (7 + len(name)))
+    self._draw_throbber()
 
   def _draw_throbber(self):
-    self._go_left(1)
+    self.console.go_left(1)
     self.fp.write(self.throbber[self.throbpos])
     self.throbpos = (self.throbpos + 1) % len(self.throbber)
 
   def _clear_throbber(self):
-    self._go_left(1)
+    self.console.go_left(1)
     self.fp.write(" ")
 
   def start_prebuild(self):
     self._go_to_end()
-    self._reset_color()
+    self.console.reset_color()
     self.fp.write("\nprebuild:\n")
 
   def start_configure(self, name):
     self._go_to_end()
-    self._set_color(self._color_for_state(self.INPROGRESS, 0))
-    self.fp.write("  %-77s" % name)
-    self._reset_color()
-    self.pos = -1
+    self.console.set_title("prebuild %s" % name)
+    self.console.set_color(self._color_for_state(self.INPROGRESS, 0))
+    self.fp.write("  %s\n" % name)
+    self.console.reset_color()
+    self.console.go_up(1)
+    self.console.go_right(79)
+    self._draw_throbber()
 
   def finish_configure(self, name):
-    self._go_linehome()
-    self._set_color(self._color_for_state(self.COMPLETE))
+    self.console.go_linehome()
+    self.console.set_color(self._color_for_state(self.COMPLETE))
     self.fp.write("  %-77s" % name)
-    self._reset_color()
+    self.console.reset_color()
+    self._draw_throbber()
 
   def start_tier(self, name, dirs):
     self._go_to_end()
-    self._reset_color()
+    self.console.reset_color()
     self.fp.write("\ntier %s - %s dirs:\n" % (name, len(dirs)))
     self.tier = name
     self.dirs = dirs
@@ -230,14 +190,15 @@ class ConsoleOutput:
       self.export_counts[dir] = 0
       self.libs_counts[dir] = 0
       self._print_tier_line(self.PENDING, 0, self.PENDING, 0, dir)
+      self._clear_throbber()
       self.fp.write("\n")
-    self._go_up(len(dirs))
-    self._go_right(79)
+    self.console.go_up(len(dirs))
+    self.console.go_right(79)
 
   def start_exports(self, dir):
     pos = self.dirs.index(dir)
     self._go_to_pos(pos - len(self.dirs))
-    self._set_title("%s export [%d/%d] %s" % (self.tier, pos + 1, len(self.dirs), dir))
+    self.console.set_title("%s export [%d/%d] %s" % (self.tier, pos + 1, len(self.dirs), dir))
     self._print_tier_line(self.INPROGRESS, self.export_counts[dir], self.PENDING, self.libs_counts[dir], dir)
 
   def start_export_subdir(self, dir):
@@ -254,7 +215,7 @@ class ConsoleOutput:
   def start_libs(self, dir):
     pos = self.dirs.index(dir)
     self._go_to_pos(pos - len(self.dirs))
-    self._set_title("%s libs [%d/%d] %s" % (self.tier, pos + 1, len(self.dirs), dir))
+    self.console.set_title("%s libs [%d/%d] %s" % (self.tier, pos + 1, len(self.dirs), dir))
     self._print_tier_line(self.COMPLETE, self.export_counts[dir], self.INPROGRESS, self.libs_counts[dir], dir)
 
   def start_libs_subdir(self, dir):
@@ -270,7 +231,7 @@ class ConsoleOutput:
 
   def start_tools(self, name, dirs):
     self._go_to_end()
-    self._reset_color()
+    self.console.reset_color()
     self.fp.write("\ntools tier %s - %s dirs:\n" % (name, len(dirs)))
     self.tier = name
     self.dirs = dirs
@@ -278,14 +239,16 @@ class ConsoleOutput:
     for dir in dirs:
       self.libs_counts[dir] = 0
       self._print_tools_line(self.PENDING, 0, dir)
+      self._clear_throbber()
       self.fp.write("\n")
-    self._go_up(len(dirs))
-    self._go_right(79)
+    self.console.go_up(len(dirs))
+    self.console.go_right(79)
+    self._draw_throbber()
 
   def start_tools_dir(self, dir):
     pos = self.dirs.index(dir)
     self._go_to_pos(pos - len(self.dirs))
-    self._set_title("%s tools [%d/%d] %s" % (self.tier, pos + 1, len(self.dirs), dir))
+    self.console.set_title("%s tools [%d/%d] %s" % (self.tier, pos + 1, len(self.dirs), dir))
     self._print_tools_line(self.INPROGRESS, self.libs_counts[dir], dir)
 
   def start_tools_subdir(self, dir):
@@ -304,8 +267,8 @@ class ConsoleOutput:
       return
     self.failed = True
     self._go_to_end();
-    self._clear_title()
-    self._reset_color();
+    self.console.clear_title()
+    self.console.reset_color();
     self.fp.write("\n")
     for line in self.lines:
       self.fp.write(line)
@@ -324,7 +287,7 @@ class ConsoleOutput:
 # The LogParser parses a log file and sends signals to an Output
 class LogParser:
   output = None
-  errorreg = re.compile("^g?make\\[\\d\\]: .+ Error \d+$")
+  errorreg = re.compile("^g?make(?:\\.py)?\\[\\d\\]: .+ Error \d+$")
   tierreg = re.compile("^tier_([^:]+): (.+)$")
   toolsreg = re.compile("^tools_tier_(.+)$")
   enterreg = None
@@ -344,8 +307,8 @@ class LogParser:
 
   # Detects the directories in a tier based on makefile generation
   def detect_dirs(self, fp):
-    dirparse = re.compile("^g?make\\[\\d+\\]: `(.+)/Makefile' is up to date.$")
-    leavedir = re.compile("^g?make\\[\\d+\\]: Leaving directory.*$")
+    dirparse = re.compile("^g?make(?:\\.py)?\\[\\d+\\]: `(.+)/Makefile' is up to date.$")
+    leavedir = re.compile("^g?make(?:\\.py)?\\[\\d+\\]: Leaving directory.*$")
     dirs = []
     line = fp.readline()
     while line != "":
@@ -353,6 +316,8 @@ class LogParser:
       if self.errorreg.search(line):
         self.error(fp)
         return None
+      if self.donereg.search(line):
+        self.complete = True
       if leavedir.search(line):
         return dirs
       if dirparse.search(line):
@@ -417,6 +382,8 @@ class LogParser:
 
     if dirs is None:
       return ""
+    if len(dirs) == 0:
+      return fp.readline()
     curdir = None
 
     def finish_last():
@@ -455,7 +422,7 @@ class LogParser:
     try:
       # First parse the configure calls and detect the object directory
       lastconfig = None
-      basereg = re.compile("^g?make .*-C (.+)$")
+      basereg = re.compile("^(?:g?make .*-C (.+)|make\\.py\\[0\\]: Entering directory .(.+)')$")
       mainconfig = re.compile("^Adding configure options from")
       subconfig = re.compile("^configuring in (.+)$")
       line = fp.readline()
@@ -465,8 +432,8 @@ class LogParser:
           return self.error(fp)
         if mainconfig.search(line):
           self.output.start_prebuild()
-          self.output.start_configure("configure")
           lastconfig = "configure"
+          self.output.start_configure(lastconfig)
         elif subconfig.search(line):
           match = subconfig.search(line)
           if lastconfig:
@@ -478,8 +445,14 @@ class LogParser:
         elif basereg.search(line):
           match = basereg.search(line)
           objdir = match.group(1)
-          self.enterreg = re.compile("[\007^]g?make\\[\\d+\\]: Entering directory `%s/(.+)'$" % objdir)
-          self.donereg = re.compile("^g?make\\[1\\]: Leaving directory `%s'$" % objdir)
+          if not objdir:
+            objdir = match.group(2)
+          separator = "/"
+          if not objdir.startswith("/"):
+            separator = "\\\\"
+            objdir = objdir.replace("\\", "\\\\")
+          self.enterreg = re.compile("(?:[\007^]g?make|make\\.py)\\[\\d+\\]: Entering directory .%s%s(.+).$" % (objdir, separator))
+          self.donereg = re.compile("(?:g?make\\[1\\]|make\\.py\\[0\\]): Leaving directory .%s." % objdir)
           break
         line = fp.readline()
 
