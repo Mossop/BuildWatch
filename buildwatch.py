@@ -46,6 +46,8 @@
 #     make -f client.mk 2>&1 build | tee <logfile> | python /path/to/buildwatch.py
 #
 # Version history:
+# - 1.0.1   Nov 22 2009
+#     Fix object dir detection and directory entries on Linux
 # - 1.0.0   Nov 22 2009
 #     Initial implementation. Design, terminal codes and certain regular
 #     regular expressions taken from the original gawk script available at
@@ -453,7 +455,7 @@ class LogParser:
     try:
       # First parse the configure calls and detect the object directory
       lastconfig = None
-      basereg = re.compile("^g?make\\[1\\]: Entering directory `(.+)'$")
+      basereg = re.compile("^g?make .*-C (.+)$")
       mainconfig = re.compile("^Adding configure options from")
       subconfig = re.compile("^configuring in (.+)$")
       line = fp.readline()
@@ -476,7 +478,7 @@ class LogParser:
         elif basereg.search(line):
           match = basereg.search(line)
           objdir = match.group(1)
-          self.enterreg = re.compile("^g?make\\[\\d+\\]: Entering directory `%s/(.+)'$" % objdir)
+          self.enterreg = re.compile("[\007^]g?make\\[\\d+\\]: Entering directory `%s/(.+)'$" % objdir)
           self.donereg = re.compile("^g?make\\[1\\]: Leaving directory `%s'$" % objdir)
           break
         line = fp.readline()
